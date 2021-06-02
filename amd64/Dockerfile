@@ -25,7 +25,7 @@ RUN apk add --update --no-cache \
     bash-completion \
     zsh \
     git \
-    vim \
+    nano \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
     bind-tools \
