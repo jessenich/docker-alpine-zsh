@@ -2,11 +2,8 @@ name: "Publish Docker Image"
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "*"
-    branches:
-      - "main"
+  release:
+    types: [published]
     
 
 jobs:
@@ -33,7 +30,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_TOKEN }}
           
         - name: Login to GitHub Container Registry
-          uses: docker/login-action
+          uses: docker/login-action@v1
           with:
             username: ${{ github.repository_owner }}
             password: ${{ secrets.GITHUB_TOKEN }}
