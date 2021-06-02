@@ -1,0 +1,96 @@
+###############################
+### Alpine Docker Optimized ###
+###  /etc/ssh/sshd_config   ###
+###############################
+
+#AuthorizedKeysCommand                  none
+#AuthorizedKeysCommandUser              nobody
+#AuthorizedPrincipalsFile               none
+#ChallengeResponseAuthentication        yes
+#ChrootDirectory                        none
+#GSSAPIAuthentication                   no
+#GSSAPICleanupCredentials               yes
+#HostbasedAuthentication                no
+#IgnoreRhosts                           yes
+#IgnoreUserKnownHosts                   no
+#KerberosAuthentication                 no
+#KerberosGetAFSToken                    no
+#KerberosOrLocalPasswd                  yes
+#KerberosTicketCleanup                  yes
+#MaxStartups                            10:30:100
+#PasswordAuthentication                 yes
+#PermitEmptyPasswords                   no
+#PermitTunnel                           no
+#PidFile                                /var/run/sshd.pid
+#PrintMotd                              yes
+#StrictModes                            yes
+#UseDNS                                 no
+#VersionAddendum                        none
+
+AcceptEnv                               *,LANG LC_*
+AddressFamily                           any
+AllowAgentForwarding                    yes
+AllowStreamLocalForwarding              yes
+AllowTcpForwarding                      yes
+AuthorizedKeyFiles                      authorized_keys authorized_keys2 authorized_keys.d/*
+Ciphers                                 aes128-cbc,3des-cbc,aes256-cbc,aes128-ctr,aes192-ctr,aes256-ctr
+ClientAliveCountMax                     5
+ClientAliveInterval                     5
+Compression                             delayed
+FingerprintHash                         sha256
+HostKey                                 /etc/ssh/ssh_host_ecdsa_key
+HostKey                                 /etc/ssh/ssh_host_ed25519_key
+HostKey                                 /etc/ssh/ssh_host_rsa_key
+HostKeyAgent                            SSH_AUTH_SOCK
+IgnoreRhosts                            no
+IgnoreUserKnownHosts                    no
+IPQoS                                   reliability
+KbdInteractiveAuthentication            yes
+KexAlgorithms                           curve25519-sha256,
+                                        curve25519-sha256@libssh.org,
+                                        diffie-hellman-group14-sha256,
+                                        diffie-hellman-group16-sha512,
+                                        diffie-hellman-group18-sha512,
+                                        diffie-hellman-group-exchange-sha256,
+                                        ecdh-sha2-nistp256,
+                                        ecdh-sha2-nistp384,
+                                        ecdh-sha2-nistp521
+
+ListenAddress 		                    0.0.0.0
+ListenAddress                           ::
+LogLevel                                DEBUG1
+LoginGraceTime                          15m
+
+MACs                                    hmac-md5-96
+                                        hmac-sha1,
+                                        umac-128@openssh.com
+                                        mac-md5-96-etm@openssh.com
+                                        hmac-sha2-256,
+                                        hmac-sha2-512,
+                                        hmac-sha2-256-etm@openssh.com,
+                                        hmac-sha2-512-etm@openssh.com,
+                                        umac-128-etm@openssh.com
+
+MaxAuthTries                            6
+MaxSessions                             10
+PasswordAuthentication 	                yes
+PermitEmptyPasswords 	                no
+PermitListen                            *
+PermitOpen                              *
+PermitRootLogin 	                    yes
+PermitTTY                               yes
+PermitUserEnvironment                   yes
+Port 			                        22
+Port                                    22
+PrintLastLog                            yes
+PubkeyAuthentication                    yes
+RekeyLimit                              4G 2h
+RevokedKeys                             revoked_keys
+StrictModes 		                    yes
+Subsystem                                sftp                /usr/libexec/sftp-server
+SyslogFacility 		                    DAEMON
+SyslogFacility                          AUTH
+UsePAM                                  yes
+X11DisplayOffset                        10
+X11Forwarding 		                    yes
+X11UseLocalhost                         yes

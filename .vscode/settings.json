@@ -1,6 +1,14 @@
 {
     "cSpell.words": [
+        "GSSAPI",
+        "Hostbased",
+        "Motd",
+        "Pubkey",
         "ghcr",
-        "jessenich"
+        "hmac",
+        "jessenich",
+        "libexec",
+        "rhosts",
+        "shosts"
     ]
 }
