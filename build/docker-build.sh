@@ -28,7 +28,7 @@ then
 fi
 
 docker buildx build \
-    -f "${repository_root}"/amd64/Dockerfile \
+    -f "${repository_root}"/Dockerfile \
     -t jessenich91/alpine-base:latest  \
     -t jessenich91/alpine-base:glibc-latest \
     -t jessenich91/alpine-base:glibc-"${image_version}" \
@@ -36,3 +36,4 @@ docker buildx build \
     --build-arg "ALPINE_VERSION=${alpine_version}" \
     --build-arg "OPENSSH_VERSION=${openssh_version}" \
     "${repository_root}"
+    

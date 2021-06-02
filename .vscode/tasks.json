@@ -1,0 +1,70 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "script",
+			"scriptType": "zsh",
+			"path": "ci/",
+			"fileName": "create-local-env.sh",
+			"scriptFile": true,
+			"script": "zsh",
+			"target": "zsh",
+			"uri": {
+				"$mid": 0,
+				"fsPath": "${relativeFileDirname}/create-local-env.sh",
+				"path": "${relativeFileDirname}/create-ocal-env.sh",
+				"scheme": "file"
+			},
+			"takesArgs": true,
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"label": "zsh: create-local-env.sh"
+		},
+		{
+			"type": "script",
+			"scriptType": "zsh",
+			"path": "ci/",
+			"fileName": "docker-build.sh",
+			"scriptFile": true,
+			"script": "zsh",
+			"target": "zsh",
+			"uri": {
+				"$mid": 1,
+				"fsPath": "~/repos/docker-projects/docker-alpine-base/ci/docker-build.sh",
+				"path": "~/repos/docker-projects/docker-alpine-base/ci/docker-build.sh",
+				"scheme": "file"
+			},
+			"takesArgs": false,
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"label": "zsh: docker-build.sh",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "script",
+			"scriptType": "zsh",
+			"path": "ci/",
+			"fileName": "docker-run.sh",
+			"scriptFile": true,
+			"script": "zsh",
+			"target": "zsh",
+			"uri": {
+				"$mid": 2,
+				"fsPath": "/Users/jesse/repos/docker-projects/docker-alpine-base/ci/docker-run.sh",
+				"path": "/Users/jesse/repos/docker-projects/docker-alpine-base/ci/docker-run.sh",
+				"scheme": "file"
+			},
+			"takesArgs": false,
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"label": "zsh: docker-run.sh",
+			"dependsOn": "${defaultBuildTask}"
+		}
+	]
+}

@@ -21,10 +21,18 @@ RUN export RUNNING_IN_DOCKER
 
 # Add dependencies
 RUN apk add --update --no-cache \
+    apk-tools-zsh-completion \
     bash \
     bash-completion \
     zsh \
     git \
+    github-cli \
+    github-cli-doc \
+    git-zsh-completion \
+    git-doc \
+    git-diff-highlight \
+    git-gitweb \
+    git-zsh-completion \
     nano \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
@@ -32,9 +40,19 @@ RUN apk add --update --no-cache \
     rsync \
     curl \
     wget \
-    openssh \
-    openssh-server \
-    openssh-client
+    rsync-zsh-completion \
+    sqlite
+    # ncurses \
+    # mysql-client \
+    # sqlite \
+    # nodejs \
+    # nmap \
+    # nmap-scripts \
+    # nmap-ncat \
+    # nmap-nping \
+    # nmap-doc \
+    # nmap-nselibs
+
 
 FROM deps as glibc
 
@@ -50,23 +68,8 @@ FROM glibc as ohmyzsh
 
 SHELL ["/bin/zsh", "-c"]
 
-RUN /bin/zsh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" && \
-    echo "export RUNNING_IN_DOCKER=true" >> ~/.zshrc && \
-    echo "source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc && \
-    echo "source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc && \
-    source ~/.zshrc
+RUN /bin/zsh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+COPY resources/zshrc ~/.zshrc
+RUN source ~/.zshrc
 
-FROM ohmyzsh as sshd
-
-RUN mkdir -p /root/.ssh "${CONF_VOLUME}" "${AUTHORIZED_KEYS_VOLUME}" && \
-    cp -a /etc/ssh "${CACHED_SSH_DIRECTORY}"
-
-RUN mkdir /tmp/docker-build/
-COPY scripts/conf-sshd.sh /entrypoint.sh
-RUN chmod 0755 /entrypoint.sh
-
-EXPOSE 22
-
-VOLUME "/etc/ssh"
-
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/bin/zsh" ]
