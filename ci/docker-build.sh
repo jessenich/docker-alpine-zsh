@@ -22,5 +22,6 @@ docker build . \
     -t jessenich91/alpine-base:glibc-latest \
     -t jessenich91/alpine-base:glibc-"${image_version}" \
     -t jessenich91/alpine-base:alpine-"${alpine-version}"-glibc-"${image_version}" \
+    --env-file ./default.env
     --build-arg "ALPINE_VERSION=${alpine_version}" \
     --build-arg "OPENSSH_VERSION=${openssh_version}"
