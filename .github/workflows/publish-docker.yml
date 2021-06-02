@@ -11,6 +11,9 @@ jobs:
       runs-on: "ubuntu-latest"
   
       steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+      
         - name: Get Version
           id: semver
           uses: LykkeBusiness/get-semver-from-tag-action@v1.0.2
@@ -18,7 +21,11 @@ jobs:
             tag: ${{ github.ref }}
 
         - name: Setup QEMU
-          run: docker/setup-qemu-action@v1
+          id: qemu
+          uses: docker/setup-qemu-action@v1
+          with:
+            image: tonistiigi/binfmt:latest
+            platforms: all
 
         - name: Setup Docker Buildx
           uses: docker/setup-buildx-action@v1
