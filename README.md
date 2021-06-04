@@ -2,18 +2,18 @@
 
 ## Contents
 
-Baseline image used in all deriving alpine based image. With the following installed & pre-configured:
+Baseline image used in all alpine based images with the following installed & pre-configured:
 
+- glibc (Optional)* [TODO: Refactor stage order to allow optional glibc incusion]
 - zsh
 - oh-my-zsh
 - bash
 - git
-- ssh
-- sshd
+- git utilities
+- various zsh completion packages
 
 ## Building
 
 - Copy `default.env` -> `.env`
-- Build from source with 
-  - `docker build . -t jessenich91/alpine-base:latest -t jessenich91/alpine-base:glibc-latest -t jessenich91/alpine-base:alpine-3.13-glibc-0.0.2-alpha -t jessenich91/alpine-base:glibc-0.0.2-alpha`
-- Run with docker run --env-file "./default.env" --publish "2222:22" -v "./conf.d/:/etc/vol" --name "alpine-container" 
+- Build from source with `zsh` script at `build/docker-build.sh`
+- Run container with `zsh` script at `build/docker-run.sh`
