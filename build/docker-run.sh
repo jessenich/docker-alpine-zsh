@@ -19,9 +19,15 @@ then
     name="alpine-base"
 fi
 
-docker run -i \
+# if [[ -z "$vol" ]]
+# then
+#     vol="./resources/etc/ssh"
+# fi
+
+    # -p "${ssh_port}:22" \
+    # --mount "${vol}":/etc/ssh
+
+docker run -it \
     --name "${name}" \
     --env-file "${env_file}" \
-    -p "${ssh_port}:22" \
-    --mount "${vol}":/etc/ssh
     jessenich91/alpine-base:latest

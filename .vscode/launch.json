@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/bin/Debug/<target-framework>/<project-name.dll>",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Docker Build",
+            "type": "docker",
+            
+            "containerName": "alpine-sshd",
+            "preLaunchTask": "create-dotenv",
+            "request": "launch",
+            "internalConsoleOptions": "openOnFirstSessionStart",
+            "removeContainerAfterDebug": true,
+            "program": "/bin/zsh ${workspaceFolder}/build/docker-build",
+            "presentation": {
+                "hidden": false,
+                "group": "Docker",
+                "order": 1
+            }
+
+        }
+    ]
+}
