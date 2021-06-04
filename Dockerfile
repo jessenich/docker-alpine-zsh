@@ -36,25 +36,20 @@ RUN apk add --update --no-cache \
     nano \
     zsh-autosuggestions \
     zsh-syntax-highlighting \
-    bind-tools \
     rsync \
     curl \
     wget \
-    rsync-zsh-completion \
-    sqlite
-    # ncurses \
-    # mysql-client \
-    # sqlite \
-    # nodejs \
-    # nmap \
-    # nmap-scripts \
-    # nmap-ncat \
-    # nmap-nping \
-    # nmap-doc \
-    # nmap-nselibs
+    rsync-zsh-completion
 
+SHELL ["/bin/zsh", "-c"]
 
-FROM deps as glibc
+FROM deps as ohmyzsh
+
+RUN /bin/zsh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+COPY resources/zshrc ~/.zshrc
+RUN source ~/.zshrc
+
+FROM ohmyzsh as glibc
 
 # Download and install glibc
 RUN curl -sSLo /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
@@ -63,13 +58,3 @@ RUN curl -sSLo /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
   apk add glibc-bin.apk glibc.apk && \
   /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib && \
   echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
-
-FROM glibc as ohmyzsh
-
-SHELL ["/bin/zsh", "-c"]
-
-RUN /bin/zsh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-COPY resources/zshrc ~/.zshrc
-RUN source ~/.zshrc
-
-ENTRYPOINT [ "/bin/zsh" ]

@@ -11,6 +11,7 @@
         "libexec",
         "rhosts",
         "semver",
-        "shosts"
+        "shosts",
+        "ohmyzsh"
     ]
 }
