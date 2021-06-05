@@ -25,7 +25,6 @@ jobs:
           with:
             platforms: |
               linux/amd64
-              linux/arm64
 
         - name: Setup Docker Buildx
           uses: docker/setup-buildx-action@v1
@@ -58,7 +57,6 @@ jobs:
             push: true
             platforms: |
               linux/amd64
-              linux/arm64
             tags: |
               ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
               ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ steps.semver.outputs.non-prefixed }}
@@ -77,7 +75,6 @@ jobs:
             push: true
             platforms: |
               linux/amd64
-              linux/arm64
             tags: |
               ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:glibc-latest
               ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:glibc-${{ steps.semver.outputs.non-prefixed }}
