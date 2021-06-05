@@ -29,7 +29,6 @@ RUN apk add --update --no-cache \
     git-zsh-completion \
     nano \
     zsh-autosuggestions \
-    zsh-syntax-highlighting \
     rsync \
     curl \
     wget \
