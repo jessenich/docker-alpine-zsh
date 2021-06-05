@@ -7,12 +7,6 @@ LABEL maintainer Jesse N. <jesse@keplerdev.com>
 ARG OPENSSH_VERSION="${OPENSSH_VERSION:-8.1_p1-r0}"
 
 ENV GLIBC_VERSION="2.33-r0" \
-    CONF_VOLUME="/conf.d" \
-    OPENSSH_VERSION="${OPENSSH_VERSION}" \
-    CACHED_SSH_DIRECTORY="${CONF_VOLUME}/ssh" \
-    AUTHORIZED_KEYS_VOLUME="${CONF_VOLUME}/authorized_keys" \
-    ROOT_KEYPAIR_LOGIN_ENABLED="false" \
-    ROOT_LOGIN_UNLOCKED="false" \
     USER_LOGIN_SHELL="/bin/zsh" \
     USER_LOGIN_SHELL_FALLBACK="/bin/ash" \
     RUNNING_IN_DOCKER="true"
