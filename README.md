@@ -4,7 +4,7 @@
 
 Baseline image used in all alpine based images with the following installed & pre-configured:
 
-- glibc (Optional)* [TODO: Refactor stage order to allow optional glibc incusion]
+- glibc (Optional)*
 - zsh
 - oh-my-zsh
 - bash
