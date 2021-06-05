@@ -55,7 +55,7 @@ jobs:
               github_repo: ${{ github.repository }}
               dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
             build-args: |
-              ALPINE_VERSION=3.13.5
+              ALPINE_VERSION=3.13
             push: true
             platforms: |
               linux/amd64
@@ -75,7 +75,7 @@ jobs:
               github_repo: ${{ github.repository }}
               dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
             build-args: |
-              ALPINE_VERSION=3.13.5
+              ALPINE_VERSION=3.13
             push: true
             platforms: |
               linux/amd64

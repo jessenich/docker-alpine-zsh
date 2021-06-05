@@ -1,4 +1,4 @@
-ARG ALPINE_VERSION="${ALPINE_VERSION:-3.13.5}"
+ARG ALPINE_VERSION="${ALPINE_VERSION:-3.13}"
 
 FROM alpine:"${ALPINE_VERSION}" as deps
 
@@ -9,16 +9,20 @@ ARG OPENSSH_VERSION="${OPENSSH_VERSION:-8.1_p1-r0}"
 ENV GLIBC_VERSION="2.33-r0" \
     USER_LOGIN_SHELL="/bin/zsh" \
     USER_LOGIN_SHELL_FALLBACK="/bin/ash" \
+    TZ="America/NewYork" \
     RUNNING_IN_DOCKER="true"
 
 RUN export RUNNING_IN_DOCKER
 
+RUN apk add --update --no-cache bash
+RUN apk add --update --no-cache zsh
+
+SHELL ["/bin/zsh", "-c"]
+
 # Add dependencies
 RUN apk add --update --no-cache \
-    apk-tools-zsh-completion \
-    bash \
     bash-completion \
-    zsh \
+    ca-certificates \
     git \
     github-cli \
     github-cli-doc \
@@ -32,9 +36,8 @@ RUN apk add --update --no-cache \
     rsync \
     curl \
     wget \
-    rsync-zsh-completion
-
-SHELL ["/bin/zsh", "-c"]
+    rsync-zsh-completion && \
+    rm -rf /var/cache/apk/*
 
 FROM deps as ohmyzsh
 
