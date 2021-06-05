@@ -12,9 +12,6 @@ ENV GLIBC_VERSION="2.33-r0" \
     TZ="America/NewYork" \
     RUNNING_IN_DOCKER="true"
 
-RUN export RUNNING_IN_DOCKER
-
-RUN apk add --update --no-cache bash
 RUN apk add --update --no-cache zsh
 
 SHELL ["/bin/zsh", "-c"]
@@ -36,8 +33,7 @@ RUN apk add --update --no-cache \
     rsync \
     curl \
     wget \
-    rsync-zsh-completion && \
-    rm -rf /var/cache/apk/*
+    rsync-zsh-completion
 
 FROM deps as ohmyzsh
 
