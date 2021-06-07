@@ -1,6 +1,6 @@
-ARG ALPINE_VERSION="${ALPINE_VERSION:-3.13}"
+ARG ALPINE_VERSION=
 
-FROM alpine:"${ALPINE_VERSION}" as deps
+FROM alpine:"${ALPINE_VERSION:-3.13}" as deps
 
 LABEL maintainer Jesse N. <jesse@keplerdev.com>
 
@@ -24,7 +24,7 @@ RUN apk add --update --no-cache \
 ARG INCLUDE_DOCS=
 ENV INCLUDE_DOCS="${INCLUDE_DOCS:-true}"
 
-RUN "${INCLUDE_DOCS}"=="true" && \
+RUN "${INCLUDE_DOCS}"="true" && \
     apk add --update --no-cache \
         man-pages \
         man-db \
@@ -55,7 +55,7 @@ RUN apk add --update --no-cache \
     rsync-zsh-completion \
     yq-zsh-completion
 
-RUN "${INCLUDE_DOCS}"=="true" && \
+RUN "${INCLUDE_DOCS}"="true" && \
     apk add --update --no-cache \
         zsh-doc \
         zsh-syntax-highlighting-doc

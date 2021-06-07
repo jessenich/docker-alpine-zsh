@@ -48,7 +48,7 @@ jobs:
             github_repo: ${{ github.repository }}
             dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
           build-args: |
-            ALPINE_VERSION=${{ ALPINE_VERSION }}
+            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             INCLUDE_DOCS=true
           push: true
           tags: |
@@ -65,7 +65,7 @@ jobs:
             github_repo: ${{ github.repository }}
             dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
           build-args: |
-            ALPINE_VERSION=${{ ALPINE_VERSION }}
+            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             INCLUDE_DOCS=false
           push: true
           tags: |
@@ -82,7 +82,7 @@ jobs:
             github_repo: ${{ github.repository }}
             dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
           build-args: |
-            ALPINE_VERSION=${{ ALPINE_VERSION }}
+            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             GLIBC_VERSION=2.33-r0
             INCLUDE_DOCS=true
           push: true
@@ -100,7 +100,7 @@ jobs:
             github_repo: ${{ github.repository }}
             dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
           build-args: |
-            ALPINE_VERSION=${{ ALPINE_VERSION }}
+            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             GLIBC_VERSION=2.33-r0
             INCLUDE_DOCS=false
           push: true
