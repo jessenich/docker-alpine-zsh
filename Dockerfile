@@ -4,44 +4,71 @@ FROM alpine:"${ALPINE_VERSION}" as deps
 
 LABEL maintainer Jesse N. <jesse@keplerdev.com>
 
-ARG OPENSSH_VERSION="${OPENSSH_VERSION:-8.1_p1-r0}"
-
-ENV GLIBC_VERSION="2.33-r0" \
-    USER_LOGIN_SHELL="/bin/zsh" \
+ENV USER_LOGIN_SHELL="/bin/zsh" \
     USER_LOGIN_SHELL_FALLBACK="/bin/ash" \
     TZ="America/NewYork" \
     RUNNING_IN_DOCKER="true"
 
-RUN apk add --update --no-cache zsh
-
-SHELL ["/bin/zsh", "-c"]
-
 # Add dependencies
 RUN apk add --update --no-cache \
-    bash-completion \
     ca-certificates \
-    git \
-    github-cli \
-    github-cli-doc \
-    git-zsh-completion \
-    git-doc \
-    git-diff-highlight \
-    git-gitweb \
-    git-zsh-completion \
     nano \
-    zsh-autosuggestions \
+    nano-syntax \
     rsync \
     curl \
     wget \
-    rsync-zsh-completion
+    jq \
+    yq
+    
+# Add optional corresponding documentation packages
+ARG INCLUDE_DOCS=
+ENV INCLUDE_DOCS="${INCLUDE_DOCS:-true}"
+
+RUN "${INCLUDE_DOCS}"=="true" && \
+    apk add --update --no-cache \
+        man-pages \
+        man-db \
+        man-db-doc \
+        nano-doc \
+        curl-doc \
+        wget-doc \
+        jq-doc \
+        yq-doc
 
 FROM deps as ohmyzsh
 
+RUN apk add --update --no-cache zsh
+
+RUN echo "# valid login shells" > /etc/shells && \
+    ehco "/bin/zsh" >> /etc/shells && \
+    echo "/bin/bash" >> /etc/shells && \
+    echo "/bin/ash" >> /etc/shells && \
+    echo "/bin/sh" >> /etc/shells
+
+RUN apk add --update --no-cache \
+    zsh-calendar \
+    zsh-zftp \
+    zsh-vcs \
+    apk-tools-zsh-completion \
+    shadow \
+    zsh-autosuggestions \
+    rsync-zsh-completion \
+    yq-zsh-completion
+
+RUN "${INCLUDE_DOCS}"=="true" && \
+    apk add --update --no-cache \
+        zsh-doc \
+        zsh-syntax-highlighting-doc
+
+WORKDIR /root
+
 RUN /bin/zsh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-COPY resources/zshrc ~/.zshrc
-RUN source ~/.zshrc
+COPY resources/zshrc /root/.zshrc
 
 FROM ohmyzsh as glibc
+
+ARG GLIBC_VERSION=
+ENV GLIBC_VERSION="${GLIBC_VERSION:-2.33-r0}"
 
 # Download and install glibc
 RUN curl -sSLo /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
