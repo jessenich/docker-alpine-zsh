@@ -33,8 +33,7 @@ RUN if "${INCLUDE_DOCS}"="true"; then \
         curl-doc \
         wget-doc \
         jq-doc \
-        yq-doc \
-    fi
+        yq-doc fi
 
 FROM deps as ohmyzsh
 
@@ -59,8 +58,7 @@ RUN apk add --update --no-cache \
 RUN if "${INCLUDE_DOCS}"="true" then; \
     apk add --update --no-cache \
         zsh-doc \
-        zsh-syntax-highlighting-doc \
-    fi
+        zsh-syntax-highlighting-doc fi
 
 WORKDIR /root
 
