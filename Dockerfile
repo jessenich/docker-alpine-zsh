@@ -38,15 +38,15 @@ RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
 
 FROM deps as ohmyzsh
 
-RUN apk add --update --no-cache zsh
+RUN apk update && apk add zsh
 
 RUN echo "# valid login shells" > /etc/shells && \
-    ehco "/bin/zsh" >> /etc/shells && \
+    echo "/bin/zsh" >> /etc/shells && \
     echo "/bin/bash" >> /etc/shells && \
     echo "/bin/ash" >> /etc/shells && \
     echo "/bin/sh" >> /etc/shells
 
-RUN apk add --update --no-cache \
+RUN apk add \
         zsh-calendar \
         zsh-zftp \
         zsh-vcs \
@@ -57,10 +57,12 @@ RUN apk add --update --no-cache \
         yq-zsh-completion
 
 RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
-        apk add --update --no-cache \
+        apk add \
             zsh-doc \
             zsh-syntax-highlighting-doc; \
     fi
+
+RUN rm -rf "/var/cache/apk/*"
 
 WORKDIR /root
 
