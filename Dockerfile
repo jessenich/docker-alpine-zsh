@@ -54,7 +54,8 @@ RUN apk add \
         shadow \
         zsh-autosuggestions \
         rsync-zsh-completion \
-        yq-zsh-completion
+        yq-zsh-completion \
+        git
 
 RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
         apk add \
@@ -62,12 +63,13 @@ RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
             zsh-syntax-highlighting-doc; \
     fi
 
-RUN rm -rf "/var/cache/apk/*"
-
 WORKDIR /root
 
 RUN /bin/zsh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 COPY resources/zshrc /root/.zshrc
+
+RUN apk del git && \
+    rm -rf "/var/cache/apk/*"
 
 FROM ohmyzsh as glibc
 
@@ -76,8 +78,8 @@ ENV GLIBC_VERSION="${GLIBC_VERSION:-2.33-r0}"
 
 # Download and install glibc
 RUN curl -sSLo /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
-  curl -sSLo glibc.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk" && \
-  curl -sSLo glibc-bin.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk" && \
-  apk add glibc-bin.apk glibc.apk && \
-  /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib && \
-  echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
+    curl -sSLo glibc.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk" && \
+    curl -sSLo glibc-bin.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk" && \
+    apk add glibc-bin.apk glibc.apk && \
+    /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib && \
+    echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
