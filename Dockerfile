@@ -24,7 +24,7 @@ RUN apk add --update --no-cache \
 ARG INCLUDE_DOCS=
 ENV INCLUDE_DOCS="${INCLUDE_DOCS:-true}"
 
-RUN if ("${INCLUDE_DOCS}"="true"); then apk add --update --no-cache man-pages man-db man-db-doc nano-doc curl-doc wget-doc jq-doc yq-doc fi
+RUN if [[ -n ("${INCLUDE_DOCS}"="true") ]]; then apk add --update --no-cache man-pages man-db man-db-doc nano-doc curl-doc wget-doc jq-doc yq-doc fi
 
 FROM deps as ohmyzsh
 
@@ -46,7 +46,7 @@ RUN apk add --update --no-cache \
     rsync-zsh-completion \
     yq-zsh-completion
 
-RUN if ("${INCLUDE_DOCS}"="true") then; apk add --update --no-cache zsh-doc zsh-syntax-highlighting-doc fi
+RUN if [[ -n ("${INCLUDE_DOCS}"="true") ]]; then apk add --update --no-cache zsh-doc zsh-syntax-highlighting-doc fi
 
 WORKDIR /root
 
