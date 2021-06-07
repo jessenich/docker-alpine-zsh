@@ -11,20 +11,30 @@ ENV USER_LOGIN_SHELL="/bin/zsh" \
 
 # Add dependencies
 RUN apk add --update --no-cache \
-    ca-certificates \
-    nano \
-    nano-syntax \
-    rsync \
-    curl \
-    wget \
-    jq \
-    yq
+        ca-certificates \
+        nano \
+        nano-syntax \
+        rsync \
+        curl \
+        wget \
+        jq \
+        yq
     
 # Add optional corresponding documentation packages
 ARG INCLUDE_DOCS=
 ENV INCLUDE_DOCS="${INCLUDE_DOCS:-true}"
 
-RUN if [[ -n ("${INCLUDE_DOCS}"="true") ]]; then apk add --update --no-cache man-pages man-db man-db-doc nano-doc curl-doc wget-doc jq-doc yq-doc fi
+RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
+        apk add --update --no-cache \
+            man-pages \
+            man-db \
+            man-db-doc \
+            nano-doc \
+            curl-doc \
+            wget-doc \
+            jq-doc \
+            yq-doc; \
+    fi
 
 FROM deps as ohmyzsh
 
@@ -37,16 +47,20 @@ RUN echo "# valid login shells" > /etc/shells && \
     echo "/bin/sh" >> /etc/shells
 
 RUN apk add --update --no-cache \
-    zsh-calendar \
-    zsh-zftp \
-    zsh-vcs \
-    apk-tools-zsh-completion \
-    shadow \
-    zsh-autosuggestions \
-    rsync-zsh-completion \
-    yq-zsh-completion
+        zsh-calendar \
+        zsh-zftp \
+        zsh-vcs \
+        apk-tools-zsh-completion \
+        shadow \
+        zsh-autosuggestions \
+        rsync-zsh-completion \
+        yq-zsh-completion
 
-RUN if [[ -n ("${INCLUDE_DOCS}"="true") ]]; then apk add --update --no-cache zsh-doc zsh-syntax-highlighting-doc fi
+RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
+        apk add --update --no-cache \
+            zsh-doc \
+            zsh-syntax-highlighting-doc; \
+    fi
 
 WORKDIR /root
 
