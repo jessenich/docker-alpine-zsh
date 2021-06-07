@@ -88,7 +88,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:glibc-latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:glibc--${{ steps.semver.outputs.non-prefixed }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:glibc-${{ steps.semver.outputs.non-prefixed }}
 
       - name: Build & Push PROD with glibc Latest
         uses: docker/build-push-action@v2
