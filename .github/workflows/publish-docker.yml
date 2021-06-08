@@ -44,8 +44,8 @@ jobs:
           context: .
           file: ./Dockerfile
           target: ohmyzsh
-          cache-to: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
-          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
+#          cache-to: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
+#          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
           labels: |
             "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
             "com.keplerdev.alpine-zsh.repository.github.url: https://github.com/${{ github.repository }}"
@@ -65,8 +65,8 @@ jobs:
           context: .
           file: ./Dockerfile
           target: ohmyzsh
-          cache-to: "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache"
-          cache-from: "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache"
+#          cache-to: "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache"
+#          cache-from: "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache"
           labels: |
             "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
             "com.keplerdev.alpine-zsh.repository.github.repository.url: https://github.com/${{ github.repository }}"
@@ -86,8 +86,8 @@ jobs:
           context: .
           file: ./Dockerfile
           target: glibc
-          cache-to: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
-          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
+#          cache-to: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
+#          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
           labels: |
             "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
             "com.keplerdev.alpine-zsh.repository.github.url: https://github.com/${{ github.repository }}"
@@ -108,8 +108,8 @@ jobs:
           context: .
           file: ./Dockerfile
           target: glibc
-          cache-to: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
-          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
+#          cache-to: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
+#          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
           labels: |
             "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
             "com.keplerdev.alpine-zsh.repository.github.url: https://github.com/${{ github.repository }}"
