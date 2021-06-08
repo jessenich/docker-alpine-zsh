@@ -64,6 +64,8 @@ RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
             zsh-doc \
             zsh-syntax-highlighting-doc; \
     fi
+    
+RUN rm -rf /var/cache/apk/*
 
 FROM zsh as ohmyzsh-install
 
@@ -74,10 +76,10 @@ RUN apk add git
 RUN /bin/zsh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 COPY resources/zshrc /root/.zshrc
 
-FROM ohmyzsh-install as ohmyzsh
+FROM zsh as ohmyzsh
 
-COPY --from=ohmyzsh /root/.zshrc /root/.zshrc
-COPY --from=ohmyzsh /root/.oh-my-zsh /root/.oh-my-zsh
+COPY --from=ohmyzsh-install /root/.zshrc /root/.zshrc
+COPY --from=ohmyzsh-install /root/.oh-my-zsh /root/.oh-my-zsh
 
 FROM ohmyzsh as glibc
 
