@@ -8,9 +8,11 @@ ENV USER_LOGIN_SHELL="/bin/zsh" \
     USER_LOGIN_SHELL_FALLBACK="/bin/ash" \
     TZ="America/NewYork" \
     RUNNING_IN_DOCKER="true"
+    
+RUN apk update
 
 # Add dependencies
-RUN apk add --update --no-cache \
+RUN apk add \ 
         ca-certificates \
         nano \
         nano-syntax \
@@ -25,7 +27,7 @@ ARG INCLUDE_DOCS=
 ENV INCLUDE_DOCS="${INCLUDE_DOCS:-true}"
 
 RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
-        apk add --update --no-cache \
+        apk add \
             man-pages \
             man-db \
             man-db-doc \
@@ -36,9 +38,10 @@ RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
             yq-doc; \
     fi
 
-FROM deps as ohmyzsh
+FROM deps as zsh
 
-RUN apk update && apk add zsh
+RUN apk update
+RUN apk add zsh
 
 RUN echo "# valid login shells" > /etc/shells && \
     echo "/bin/zsh" >> /etc/shells && \
@@ -54,8 +57,7 @@ RUN apk add \
         shadow \
         zsh-autosuggestions \
         rsync-zsh-completion \
-        yq-zsh-completion \
-        git
+        yq-zsh-completion
 
 RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
         apk add \
@@ -63,13 +65,19 @@ RUN if [ "${INCLUDE_DOCS}" = "true" ]; then \
             zsh-syntax-highlighting-doc; \
     fi
 
+FROM zsh as ohmyzsh-install
+
 WORKDIR /root
+
+RUN apk add git
 
 RUN /bin/zsh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 COPY resources/zshrc /root/.zshrc
 
-RUN apk del git && \
-    rm -rf "/var/cache/apk/*"
+FROM ohmyzsh-install as ohmyzsh
+
+COPY --from=ohmyzsh /root/.zshrc /root/.zshrc
+COPY --from=ohmyzsh /root/.oh-my-zsh /root/.oh-my-zsh
 
 FROM ohmyzsh as glibc
 
