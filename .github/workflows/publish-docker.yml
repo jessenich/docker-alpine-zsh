@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build & Push Dev Latest
+      - name: Build & Push Dev Latest (No glibc) 
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -53,12 +53,14 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64
+            linux/arm/v7
+          pull: true
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ steps.semver.outputs.non-prefixed }}
 
-      - name: Build & Push Prod Latest
+      - name: Build & Push Prod Latest (No glibc)
         uses: docker/build-push-action@v2
         with:
           context: .
