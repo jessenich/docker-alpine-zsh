@@ -44,16 +44,20 @@ jobs:
           context: .
           file: ./Dockerfile
           target: ohmyzsh
+          cache-to: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
+          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
           labels: |
-            github_repo: ${{ github.repository }}
-            dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
+            "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
+            "com.keplerdev.alpine-zsh.repository.github.url: https://github.com/${{ github.repository }}"
+            "com.keplerdev.alpine-zsh.repository.dockerhub.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             INCLUDE_DOCS=true
+          pull: true
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ steps.semver.outputs.non-prefixed }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:dev-latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:dev-${{ steps.semver.outputs.non-prefixed }}
 
       - name: Build & Push Prod Latest
         uses: docker/build-push-action@v2
@@ -61,12 +65,16 @@ jobs:
           context: .
           file: ./Dockerfile
           target: ohmyzsh
+          cache-to: "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache"
+          cache-from: "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache"
           labels: |
-            github_repo: ${{ github.repository }}
-            dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
+            "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
+            "com.keplerdev.alpine-zsh.repository.github.repository.url: https://github.com/${{ github.repository }}"
+            "com.keplerdev.alpine-zsh.repository.dockerhub.repository.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             INCLUDE_DOCS=false
+          pull: true
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:prod-latest
@@ -78,13 +86,17 @@ jobs:
           context: .
           file: ./Dockerfile
           target: glibc
+          cache-to: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
+          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
           labels: |
-            github_repo: ${{ github.repository }}
-            dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
+            "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
+            "com.keplerdev.alpine-zsh.repository.github.url: https://github.com/${{ github.repository }}"
+            "com.keplerdev.alpine-zsh.repository.dockerhub.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             GLIBC_VERSION=2.33-r0
             INCLUDE_DOCS=true
+          pull: true
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:glibc-latest
@@ -96,13 +108,17 @@ jobs:
           context: .
           file: ./Dockerfile
           target: glibc
+          cache-to: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
+          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
           labels: |
-            github_repo: ${{ github.repository }}
-            dockerhub_repo: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}
+            "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
+            "com.keplerdev.alpine-zsh.repository.github.url: https://github.com/${{ github.repository }}"
+            "com.keplerdev.alpine-zsh.repository.dockerhub.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             GLIBC_VERSION=2.33-r0
             INCLUDE_DOCS=false
+          pull: true
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:prod-glibc-latest

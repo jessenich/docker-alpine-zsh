@@ -8,10 +8,11 @@
         "ghcr",
         "hmac",
         "jessenich",
+        "keplerdev",
         "libexec",
+        "ohmyzsh",
         "rhosts",
         "semver",
-        "shosts",
-        "ohmyzsh"
+        "shosts"
     ]
 }
