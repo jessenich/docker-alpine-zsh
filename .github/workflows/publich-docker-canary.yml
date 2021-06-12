@@ -52,7 +52,7 @@ jobs:
           pull: true
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:next
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:canary
 
       - name: Build & Push Dev with glibc Latest
         uses: docker/build-push-action@v2
@@ -74,5 +74,5 @@ jobs:
           pull: true
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:glibc-next
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:glibc-canary
   
