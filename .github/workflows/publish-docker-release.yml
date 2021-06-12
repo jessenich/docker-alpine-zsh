@@ -48,6 +48,7 @@ jobs:
 #          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
           labels: |
             "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
+            "com.keplerdev.alpine-zsh.source-sha": ${{ github.sha }}
             "com.keplerdev.alpine-zsh.repository.github.url: https://github.com/${{ github.repository }}"
             "com.keplerdev.alpine-zsh.repository.dockerhub.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
@@ -69,6 +70,7 @@ jobs:
 #          cache-from: "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache"
           labels: |
             "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
+            "com.keplerdev.alpine-zsh.source-sha": ${{ github.sha }}
             "com.keplerdev.alpine-zsh.repository.github.repository.url: https://github.com/${{ github.repository }}"
             "com.keplerdev.alpine-zsh.repository.dockerhub.repository.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
@@ -90,6 +92,7 @@ jobs:
 #          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
           labels: |
             "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
+            "com.keplerdev.alpine-zsh.source-sha": ${{ github.sha }}
             "com.keplerdev.alpine-zsh.repository.github.url: https://github.com/${{ github.repository }}"
             "com.keplerdev.alpine-zsh.repository.dockerhub.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
@@ -112,6 +115,7 @@ jobs:
 #          cache-from: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:cache, type=local, dest=/tmp/.buildx-cache
           labels: |
             "com.keplerdev.alpine-zsh.maintainer: Jesse Nicholson <jesse@keplerdev.com>"
+            "com.keplerdev.alpine-zsh.source-sha": ${{ github.sha }}
             "com.keplerdev.alpine-zsh.repository.github.url: https://github.com/${{ github.repository }}"
             "com.keplerdev.alpine-zsh.repository.dockerhub.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
