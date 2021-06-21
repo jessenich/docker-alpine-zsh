@@ -2,7 +2,7 @@ ARG ALPINE_VERSION=
 
 FROM alpine:"${ALPINE_VERSION:-3.13}" as deps
 
-LABEL maintainer Jesse N. <jesse@keplerdev.com>
+LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
 
 ENV USER_LOGIN_SHELL="/bin/zsh" \
     USER_LOGIN_SHELL_FALLBACK="/bin/ash" \

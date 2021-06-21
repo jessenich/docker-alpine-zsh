@@ -32,19 +32,19 @@ build() {
         target_stage="glibc";
 
         if [ "${include_docs}" = "true" ]; then        
-            tag1="dev-glibc-latest";
-            tag2="dev-glibc-${image_version}";
-        else
             tag1="glibc-latest";
             tag2="glibc-${image_version}";
+        else
+            tag1="prod-glibc-latest";
+            tag2="prod-glibc-${image_version}";
         fi
     else
         if [ "${include_docs}" = "true" ]; then        
-            tag1="dev-latest";
-            tag2="dev-${image_version}";
-        else
             tag1="latest";
             tag2="${image_version}";
+        else
+            tag1="prod-latest";
+            tag2="prod-${image_version}";
         fi
     fi
 
@@ -60,8 +60,8 @@ build() {
 }
 
 main() {
-    while [ $# -gt 0 ]; do
-        case $1 in
+    while [ "$#" -gt 0 ]; do
+        case "$1" in
             -i | --image-version)
                 if [ -z "$2" ]; then 
                     show_usage;
@@ -70,13 +70,13 @@ main() {
                     image_version="$2";
                 fi
             ;;
-            --alpine-version) 
+            --alpine-version)
                 alpine_version="$2";
                 ;;
             --openssh_version) 
                 openssh_version="$2";
                 ;;
-            --glibc_version) 
+            --glibc-version)
                 glibc_version="$2"; 
                 ;;
             --exclude_docs) 
