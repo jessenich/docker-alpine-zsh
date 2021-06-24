@@ -1,10 +1,12 @@
 {
     "cSpell.words": [
+        "Dockerhub",
         "GSSAPI",
         "Hostbased",
         "Lykke",
         "Motd",
         "Pubkey",
+        "buildx",
         "ghcr",
         "hmac",
         "jessenich",
