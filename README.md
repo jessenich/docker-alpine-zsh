@@ -9,7 +9,6 @@ Baseline image used in all alpine based images with the following installed & pr
 - oh-my-zsh
 - various zsh completion packages
 
-## Building
+## Run
 
-- Build script at `build/docker-build.sh`
-- Run container with `zsh` script at `build/docker-run.sh`
+`docker -it jessenich91/alpine-zsh:latest`
