@@ -22,7 +22,7 @@
 
 ARG ALPINE_VERSION=
 
-FROM alpine:"${ALPINE_VERSION:-3.13}" as deps
+FROM alpine:"${ALPINE_VERSION:-latest}" as deps
 
 LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
 
@@ -59,6 +59,8 @@ RUN if [ "${NO_DOCS}" = "false" ]; then \
             jq-doc \
             yq-doc; \
     fi
+
+RUN rm -rf /var/cache/apk/*
 
 FROM deps as zsh
 
@@ -103,6 +105,8 @@ FROM zsh as ohmyzsh
 COPY --from=ohmyzsh-install /root/.zshrc /root/.zshrc
 COPY --from=ohmyzsh-install /root/.oh-my-zsh /root/.oh-my-zsh
 
+ENTRYPOINT [ "exec", "/bin/zsh" ]
+
 FROM ohmyzsh as glibc
 
 ARG GLIBC_VERSION=
@@ -114,4 +118,6 @@ RUN curl -sSLo /etc/apk/keys/sgerrand.rsa.pub "https://alpine-pkgs.sgerrand.com/
     curl -sSLo glibc-bin.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk" && \
     apk add glibc-bin.apk glibc.apk && \
     /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib && \
-    echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf
+    echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
+    rm glibc.apk && \
+    rm glibc-bin.apk;

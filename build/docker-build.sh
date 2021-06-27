@@ -80,7 +80,7 @@ build() {
         --build-arg "NO_DOCS=${include_docs}" \
         --platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
         --target "${target_stage}" \
-        --push
+        --push \
         "${repository_root}"
 }
 

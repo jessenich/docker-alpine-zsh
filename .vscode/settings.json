@@ -11,6 +11,7 @@
         "WORKDIR",
         "buildx",
         "compat",
+        "deps",
         "ghcr",
         "hmac",
         "jessenich",
