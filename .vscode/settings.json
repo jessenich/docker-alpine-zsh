@@ -1,20 +1,33 @@
 {
     "cSpell.words": [
+        "Cmdlet",
         "Dockerhub",
         "GSSAPI",
         "Hostbased",
         "Lykke",
         "Motd",
+        "NOTFOUND",
         "Pubkey",
+        "WORKDIR",
         "buildx",
+        "compat",
         "ghcr",
         "hmac",
         "jessenich",
         "keplerdev",
+        "ldconfig",
         "libexec",
+        "mdns",
+        "nodocs",
+        "nsswitch",
         "ohmyzsh",
+        "pwsh",
         "rhosts",
+        "rsync",
+        "sbin",
         "semver",
-        "shosts"
+        "sgerrand",
+        "shosts",
+        "zftp"
     ]
 }
