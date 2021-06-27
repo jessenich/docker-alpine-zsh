@@ -29,6 +29,9 @@ jobs:
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v1
+        with:
+            install: true
+            driver-opts: image=moby/buildkit:master
         
       - name: Cache Docker layers
         uses: actions/cache@v2
@@ -65,7 +68,8 @@ jobs:
             "com.keplerdev.alpine-zsh.repository.dockerhub.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
-            INCLUDE_DOCS=true
+            NO_DOCS=true
+          platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
           pull: true
           push: true
           tags: |
@@ -86,7 +90,8 @@ jobs:
             "com.keplerdev.alpine-zsh.repository.dockerhub.repository.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
-            INCLUDE_DOCS=false
+            NO_DOCS=false
+          platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
           pull: true
           push: true
           tags: |
@@ -108,7 +113,8 @@ jobs:
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             GLIBC_VERSION=2.33-r0
-            INCLUDE_DOCS=true
+            NO_DOCS=true
+          platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
           pull: true
           push: true
           tags: |
@@ -130,11 +136,11 @@ jobs:
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             GLIBC_VERSION=2.33-r0
-            INCLUDE_DOCS=false
+            NO_DOCS=false
+          platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
           pull: true
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:no-docs-glibc-latest
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:no-docs-glibc-${{ steps.semver.outputs.non-prefixed }}
    
-  
