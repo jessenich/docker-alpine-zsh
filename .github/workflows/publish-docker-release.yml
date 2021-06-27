@@ -37,7 +37,7 @@ jobs:
 
       - name: Buildx Builder Create
         run: |
-          docker buildx create --platform linux/arm64,linux/arm/v8,linux/arm/v7
+          docker buildx create --platform linux/amd64,linux/arm64/v8,linux/arm/v7
         
       - name: Cache Docker layers
         uses: actions/cache@v2
