@@ -75,10 +75,6 @@ RUN echo "# valid login shells" > /etc/shells && \
 
 RUN apk add \
         zsh-syntax-highlighting \
-        zsh-calendar \
-        zsh-zftp \
-        zsh-vcs \
-        apk-tools-zsh-completion \
         shadow \
         zsh-autosuggestions \
         rsync-zsh-completion \
