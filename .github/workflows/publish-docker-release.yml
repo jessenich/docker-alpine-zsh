@@ -79,7 +79,7 @@ jobs:
             "com.keplerdev.alpine-zsh.repository.dockerhub.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
-            NO_DOCS=true
+            NO_DOCS=false
           platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
           pull: true
           push: true
@@ -101,7 +101,7 @@ jobs:
             "com.keplerdev.alpine-zsh.repository.dockerhub.repository.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
-            NO_DOCS=false
+            NO_DOCS=true
           platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
           pull: true
           push: true
@@ -124,7 +124,7 @@ jobs:
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             GLIBC_VERSION=2.33-r0
-            NO_DOCS=true
+            NO_DOCS=false
           platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
           pull: true
           push: true
@@ -147,7 +147,7 @@ jobs:
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
             GLIBC_VERSION=2.33-r0
-            NO_DOCS=false
+            NO_DOCS=true
           platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
           pull: true
           push: true
