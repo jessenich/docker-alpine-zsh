@@ -74,6 +74,7 @@ RUN echo "# valid login shells" > /etc/shells && \
     echo "/bin/sh" >> /etc/shells
 
 RUN apk add \
+        zsh-syntax-highlighting \
         zsh-calendar \
         zsh-zftp \
         zsh-vcs \
