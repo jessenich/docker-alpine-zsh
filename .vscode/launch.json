@@ -4,7 +4,6 @@
         {
             "name": "Docker Build",
             "type": "docker",
-            
             "containerName": "alpine-sshd",
             "preLaunchTask": "create-dotenv",
             "request": "launch",
@@ -16,7 +15,6 @@
                 "group": "Docker",
                 "order": 1
             }
-
         }
     ]
 }

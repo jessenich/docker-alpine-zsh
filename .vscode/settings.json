@@ -2,6 +2,7 @@
     "cSpell.words": [
         "Cmdlet",
         "Dockerhub",
+        "ENTRYPOINT",
         "GSSAPI",
         "Hostbased",
         "Lykke",
@@ -11,6 +12,7 @@
         "WORKDIR",
         "buildkit",
         "buildx",
+        "chmod",
         "compat",
         "deps",
         "ghcr",
