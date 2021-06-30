@@ -1,5 +1,5 @@
 ## MIT License
-## 
+##
 ## Copyright (c) 2021 Jesse N. <jesse@keplerdev.com>
 ## 
 ## Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -42,35 +42,38 @@ ENV ALPINE_VERSION=${ALPINE_VERSION} \
 # Add dependencies
 RUN apk update && \
     apk add \ 
-    zsh \
-    zsh-syntax-highlighting \
-    zsh-autosuggestions \
-    ca-certificates \
-    nano \
-    nano-syntax \
-    shadow \
-    rsync \
-    rsync-zsh-completion \
-    curl \
-    wget \
-    jq \
-    yq \
-    yq-zsh-completion
+        zsh \
+        zsh-syntax-highlighting \
+        zsh-autosuggestions \
+        ca-certificates \
+        nano \
+        nano-syntax \
+        shadow \
+        rsync \
+        rsync-zsh-completion \
+        curl \
+        wget \
+        jq \
+        yq \
+        yq-zsh-completion;
 
 # Add optional corresponding documentation packages
-RUN if [ "${NO_DOCS}" != "true" ]; then \
-    apk add \
-    man-pages \
-    man-db \
-    man-db-doc \
-    nano-doc \
-    curl-doc \
-    wget-doc \
-    jq-doc \
-    yq-doc; \
+RUN if [ "${NO_DOCS}" != "true" ]; \
+    then \
+        apk add \
+            man-pages \
+            man-db \
+            man-db-doc \
+            nano-doc \
+            curl-doc \
+            wget-doc \
+            jq-doc \
+            yq-doc; \
     fi
 
 RUN rm -rf /var/cache/apk/*
+
+COPY resources/tmp/docker-build /tmp/docker-build
 
 FROM deps as zsh
 
@@ -82,9 +85,9 @@ RUN echo "# valid login shells" > /etc/shells && \
 
 RUN if [ "${NO_DOCS}" != "true" ]; \ 
     then \
-    apk add \
-    zsh-doc \
-    zsh-syntax-highlighting-doc; \
+        apk add \
+            zsh-doc \
+            zsh-syntax-highlighting-doc; \
     fi
 
 RUN rm -rf /var/cache/apk/*
@@ -94,21 +97,24 @@ FROM zsh as ohmyzsh-install
 ARG NO_OHMYZSH=
 ENV NO_OHMYZSH="${NO_OHMYZSH:+true}"
 
+WORKDIR /tmp/docker-build
 COPY resources/tmp/docker-build/install-ohmyzsh.sh /tmp/docker-build/install-ohmyzsh.sh
 
-RUN if [ "${NO_OHMYZSH}" = "true" ]; then \
-    chmod +x /tmp/docker-build/install-ohmyzsh.sh && \
-    /tmp/docker-build/install-ohmyzsh.sh; \
+RUN if [ "${NO_OHMYZSH}" = "true" ]; \
+    then \
+        chmod +x /tmp/docker-build/install-ohmyzsh.sh && \
+        /tmp/docker-build/install-ohmyzsh.sh; \
     fi
 
 FROM zsh as ohmyzsh
-ARG NO_OHMYZSH=
-ENV NO_OHMYZSH="${NO_OHMYZSH:+true}"
+
+ARG NO_OHMYZSH= ;\
+    OHMYZSH_VERSION= ;
+
+ENV NO_OHMYZSH="${NO_OHMYZSH:+true}" \
+    OHMYZSH_VERSION="${OHMYZSH_VERSION:-master}"
 
 COPY resources/tmp/docker-build/zshrc /tmp/docker-build/zshrc
-COPY 
-
-ENTRYPOINT [ "exec", "/bin/zsh" ]
 
 FROM ohmyzsh as glibc
 
@@ -118,12 +124,13 @@ ENV GLIBC_VERSION="${GLIBC_VERSION:-2.33-r0}"
 # Download and install glibc
 RUN if [ "${GLIBC_VERSION}" != "none" ]; \
     then \
-    curl -sSLo /etc/apk/keys/sgerrand.rsa.pub "https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub" && \
-    curl -sSLo glibc.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk" && \
-    curl -sSLo glibc-bin.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk" && \
-    apk add glibc-bin.apk glibc.apk && \
-    /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib && \
-    echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
-    rm glibc.apk && \
-    rm glibc-bin.apk; \
+        curl -sSLo /etc/apk/keys/sgerrand.rsa.pub "https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub" && \
+        curl -sSLo glibc.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk" && \
+        curl -sSLo glibc-bin.apk "https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-bin-${GLIBC_VERSION}.apk" && \
+        apk add glibc-bin.apk glibc.apk && \
+        /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib && \
+        echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf && \
+        rm glibc.apk && \
+        rm glibc-bin.apk && \
+        rm -rf /var/cache/apk/*; \
     fi
