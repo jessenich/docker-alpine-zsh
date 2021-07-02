@@ -114,7 +114,9 @@ ARG NO_OHMYZSH= ;\
 ENV NO_OHMYZSH="${NO_OHMYZSH:+true}" \
     OHMYZSH_VERSION="${OHMYZSH_VERSION:-master}"
 
-COPY resources/tmp/docker-build/zshrc /tmp/docker-build/zshrc
+COPY resources/home/user/zshrc /tmp/docker-build/zshrc
+COPY resources/home/user/zsh /tmp/docker-build/zsh
+
 
 FROM ohmyzsh as glibc
 
