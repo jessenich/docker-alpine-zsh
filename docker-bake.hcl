@@ -1,3 +1,5 @@
+
+
 group "default" {
     targets = [
         "ohmyzsh-docs-glibc",
@@ -21,11 +23,9 @@ target "base-config" {
         com.keplerdev.image.name = "alpine-zsh"
         com.keplerdev.image.description = "Base Alpine image used by all deriving images developed by myself, and members of Kepler Development. Includes common packages such as rsync, ca-certificates, nano, curl, jq, yq, and zsh as the primary shell. OhMyZsh is also installed with some settings customized."
         com.keplerdev.image.network = "default"
-        com.keplerdev.image.alpine-version = "3.14.0"
+        com.keplerdev.image.version = "3.14.0"
         com.keplerdev.image.registry = "https://dockerhub.com/u/jessenich91/alpine-zsh"
         com.keplerdev.image.repository = "https://github.com/jessenich/docker-alpine-zsh"
-        
-        
     }
     output = ["type=registry"]
     platforms = [
