@@ -32,7 +32,6 @@ ARG USER_LOGIN_FALLBACK_SHELL=
 LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
 
 ENV ALPINE_VERSION=${ALPINE_VERSION} \
-    NO_DOCS="${NO_DOCS:+true}" \
     USER_LOGIN_SHELL="${USER_LOGIN_SHELL:-/bin/zsh}" \
     USER_LOGIN_SHELL_FALLBACK="${USER_LOGIN_FALLBACK_SHELL:-/bin/ash}" \
     TZ="${TZ:-America/NewYork}" \
@@ -55,21 +54,7 @@ RUN apk update && \
         wget \
         jq \
         yq \
-        yq-zsh-completion;
-
-# Add optional corresponding documentation packages
-RUN if [ "${NO_DOCS}" != "true" ]; \
-    then \
-        apk add \
-            man-pages \
-            man-db \
-            man-db-doc \
-            nano-doc \
-            curl-doc \
-            wget-doc \
-            jq-doc \
-            yq-doc; \
-    fi
+        yq-zsh-completion;z
 
 RUN rm -rf /var/cache/apk/*
 
@@ -79,16 +64,9 @@ FROM deps as zsh
 
 RUN echo "# valid login shells" > /etc/shells && \
     echo "/bin/zsh" >> /etc/shells && \
-    echo "/bin/bash" >> /etc/shells && \
+    echo "/bin/bash" >> /etzc/shells && \
     echo "/bin/ash" >> /etc/shells && \
     echo "/bin/sh" >> /etc/shells;
-
-RUN if [ "${NO_DOCS}" != "true" ]; \ 
-    then \
-        apk add \
-            zsh-doc \
-            zsh-syntax-highlighting-doc; \
-    fi
 
 RUN rm -rf /var/cache/apk/*
 
@@ -100,15 +78,17 @@ ENV NO_OHMYZSH="${NO_OHMYZSH:+true}"
 WORKDIR /tmp/docker-build
 COPY resources/tmp/docker-build/install-ohmyzsh.sh /tmp/docker-build/install-ohmyzsh.sh
 
-RUN if [ "${NO_OHMYZSH}" = "true" ]; \
+RUN if [ "${NO_OHMYZSH}" != "true" ]; \
     then \
         chmod +x /tmp/docker-build/install-ohmyzsh.sh && \
         /tmp/docker-build/install-ohmyzsh.sh; \
+    else
+        rm /tmp/docker-build/install-ohmyzsh.sh
     fi
 
 FROM zsh as ohmyzsh
 
-ARG NO_OHMYZSH= ;\
+ARG NO_OHMYZSH= ; \
     OHMYZSH_VERSION= ;
 
 ENV NO_OHMYZSH="${NO_OHMYZSH:+true}" \
