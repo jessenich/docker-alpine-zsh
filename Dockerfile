@@ -20,18 +20,17 @@
 ## OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ## SOFTWARE.
 
-ARG ALPINE_VERSION="latest"
+ARG BASE_IMAGE="jessenich91/base-alpine" 
+    VARIANT="latest"
 
-FROM alpine:"${ALPINE_VERSION:-latest}" as deps
+FROM "{BASE_IMAGE:-jessenich91/base-alpine}:"${VARIANT:-latest}" as deps
 
-ARG NO_DOCS=
-ARG TZ=
-ARG USER_LOGIN_SHELL=
-ARG USER_LOGIN_FALLBACK_SHELL=
+ARG TZ="America/NewYork" \
+    USER_LOGIN_SHELL="/bin/zsh" \
+    USER_LOGIN_FALLBACK_SHELL="/bin/ash"
 
-LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
-
-ENV ALPINE_VERSION=${ALPINE_VERSION} \
+ENV BASE_IMAGE=${BASE_IMAGE} \
+    VARIANT=${VARIANT} \
     USER_LOGIN_SHELL="${USER_LOGIN_SHELL:-/bin/zsh}" \
     USER_LOGIN_SHELL_FALLBACK="${USER_LOGIN_FALLBACK_SHELL:-/bin/ash}" \
     TZ="${TZ:-America/NewYork}" \
@@ -58,7 +57,7 @@ RUN apk update && \
 
 RUN rm -rf /var/cache/apk/*
 
-COPY resources/tmp/docker-build /tmp/docker-build
+COPY lxfs/tmp/docker-build /tmp/docker-build
 
 FROM deps as zsh
 
@@ -75,8 +74,7 @@ FROM zsh as ohmyzsh-install
 ARG NO_OHMYZSH=
 ENV NO_OHMYZSH="${NO_OHMYZSH:+true}"
 
-WORKDIR /tmp/docker-build
-COPY resources/tmp/docker-build/install-ohmyzsh.sh /tmp/docker-build/install-ohmyzsh.sh
+COPY lxfs/tmp/docker-build/install-ohmyzsh.sh /tmp/docker-build/install-ohmyzsh.sh
 
 RUN if [ "${NO_OHMYZSH}" != "true" ]; \
     then \
@@ -94,9 +92,8 @@ ARG NO_OHMYZSH= ; \
 ENV NO_OHMYZSH="${NO_OHMYZSH:+true}" \
     OHMYZSH_VERSION="${OHMYZSH_VERSION:-master}"
 
-COPY resources/home/user/zshrc /tmp/docker-build/zshrc
-COPY resources/home/user/zsh /tmp/docker-build/zsh
-
+COPY lxfs/home/user/zshrc /tmp/docker-build/zshrc
+COPY lxfs/home/user/zsh /tmp/docker-build/zsh
 
 FROM ohmyzsh as glibc
 
