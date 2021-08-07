@@ -7,12 +7,11 @@ image_version= ;
 
 push= ;
 no_glibc= ;
-no_docs="false";
 alpine_version="latest";
 glibc_version="8.1_p1-r0";
 registry="jessenich91";
 repository="alpine-zsh";
-target_stage="glibc";
+target_stage="ohmyzsh";
 
 
 show_usage() {
@@ -34,23 +33,11 @@ build() {
 
     if [ "${glibc_version}" != "none" ]; then
         target_stage="glibc";
-
-        if [ -n "${no_docs}" ]; then 
-            tag1="no-docs-glibc-latest";
-            tag2="no-docs-glibc-${image_version}";       
-            
-        else
-            tag1="glibc-latest";
-            tag2="glibc-${image_version}";
-        fi
+        tag1="glibc-latest";
+        tag2="glibc-${image_version}";
     else
-        if [ -n "${no_docs}" ]; then        
-            tag1="no-docs-latest";
-            tag2="no-docs-${image_version}";
-        else
-            tag1="latest";
-            tag2="${image_version}";
-        fi
+        tag1="latest";
+        tag2="${image_version}";
     fi
 
     docker buildx build \
@@ -91,10 +78,6 @@ main() {
 
             --no-glibc)
                no_glibc="true";
-            ;;
-
-            --no_docs) 
-                no_docs="true"; 
             ;;
 
             --registry)
