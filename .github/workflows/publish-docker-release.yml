@@ -24,10 +24,6 @@ jobs:
       contents: read
       packages: write
 
-    env:
-      ALPINE_VERSION: latest
-      REGISTRY: ghcr.io
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,7 +38,7 @@ jobs:
 
       - name: Buildx Builder Create
         run: |
-          docker buildx create --platform linux/amd64,linux/arm64/v8,linux/arm/v7
+          docker buildx create --platform linux/amd64,linux/arm64/v8,linux/arm/v7 --use
 
       - name: Cache Docker layers
         uses: actions/cache@v2

@@ -5,10 +5,8 @@
 
 image_version= ;
 
-push= ;
-no_glibc= ;
-alpine_version="latest";
-glibc_version="8.1_p1-r0";
+base_image="jessenich91/alpine";
+variant="latest";
 registry="jessenich91";
 repository="alpine-zsh";
 target_stage="ohmyzsh";
@@ -18,34 +16,24 @@ show_usage() {
     echo  "Usage: $0 -i [--image-version] x.x.x [FLAGS]" && \
     echo "Flags: " && \
     echo "    -i | --image-version          - Semantic version compliant string to tag built image with." && \
-    echo "    -g | --glibc-version          - glibc Version to install during build process. Empty value will assume latest version unless --no-glibc is specified. Including glibc will increase image size significantly." && \
     echo "    -a | --alpine-version         - Semantic version compliant string that coincides with underlying base Alpine image. See dockerhub.com/alpine for values. 'latest' is considered valid." && \
-    echo "    [ --no-docs ]                 - Flag indicating whether to include accompanying documentation packages. Including docs will increase image size significantly." && \
-    echo "    [ --no-glibc ]                - Flag indicating whether glibc should be excluded entirely. Presence of this flag overrides version specified in -g | [--no-glibc]. Including glibc will increase image size significantly." && \
+    echo "    -b | --base-image             - Name of base image" && \
+    echo "    -v | --variant                - Variant/tag of base image" && \
     echo "    [ --registry ]                - Registry which the image will be pushed upon successful build. If not using dockerhub, the full FQDN must be specified. This assumes the default docker daemon is already authenticated with the registry specified. If dockerhub is used, just the username is required. Default value: jessenich91." && \
     echo "    [ --repository ]              - Repository which the image will be pushed upon successful build. Default value: 'alpine-zsh'"
 }
 
 build() {
-    tag1="latest-${image_version}"
+    tag1="latest"
     tag2="${image_version}"
     repository_root="."
-
-    if [ "${glibc_version}" != "none" ]; then
-        target_stage="glibc";
-        tag1="glibc-latest";
-        tag2="glibc-${image_version}";
-    else
-        tag1="latest";
-        tag2="${image_version}";
-    fi
 
     docker buildx build \
         -f "${repository_root}/Dockerfile" \
         -t "${registry}/${repository}:${tag1}" \
         -t "${registry}/${repository}:${tag2}" \
-        --build-arg "ALPINE_VERSION=${alpine_version}" \
-        --build-arg "NO_DOCS=${include_docs}" \
+        --build-arg "BASE_IMAGE=${base_image}" \
+        --build-arg "VARIANT=${variant}" \
         --platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
         --target "${target_stage}" \
         --push \
@@ -55,40 +43,36 @@ build() {
 main() {
     while [ "$#" -gt 0 ]; do
         case "$1" in
-            -h | --help) 
+            -h | --help)
                 show_usage;
                 exit 1;
             ;;
 
             -i | --image-version)
                 image_version="$2";
+                shift;
             ;;
 
-            -g | --glibc-version)
-                glibc_version="$2"; 
+            -v | --variant)
+                variant="$2";
+                shift;
             ;;
 
-            -a | --alpine-version)
-                alpine_version="$2";
-            ;;
-
-            -p | --push)
-                push="true";
-            ;;
-
-            --no-glibc)
-               no_glibc="true";
+            -b | --base_image)
+                base_image="$2";
+                shift;
             ;;
 
             --registry)
                 registry="$2";
+                shift;
             ;;
 
             --repository)
                 repository="$2";
+                shift;
             ;;
         esac
-        shift
     done
 }
 
@@ -98,12 +82,6 @@ main "$@"
 if [ -z "${image_version}" ]; then
     show_usage;
     exit 1;
-fi
-
-## unset glibc_version when --no-glibc flag is specified. 
-## --no-glibc is intended to override --glibc-version parameter.
-if [ -n "${no_glibc}" ] && [ ! -z "${glibc_version}" ]; then
-    unset glibc_version;
 fi
 
 build
