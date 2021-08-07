@@ -4,12 +4,11 @@
         {
             "name": "Docker Build",
             "type": "docker",
-            "containerName": "alpine-sshd",
-            "preLaunchTask": "create-dotenv",
+            "containerName": "alpine-zsh",
             "request": "launch",
             "internalConsoleOptions": "openOnFirstSessionStart",
             "removeContainerAfterDebug": true,
-            "program": "/bin/zsh ${workspaceFolder}/build/docker-build",
+            "program": "/bin/zsh ${workspaceFolder}/build/docker-build.sh --image-version ${",
             "presentation": {
                 "hidden": false,
                 "group": "Docker",
