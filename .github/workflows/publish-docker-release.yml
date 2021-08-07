@@ -76,7 +76,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          target: ohmyzsh
           labels: ${{ env.LABELS }}
           build-args: |
             ALPINE_VERSION=${{ env.ALPINE_VERSION }}
@@ -85,24 +84,4 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ steps.semver.outputs.non-prefixed }}
-            
-      - name: Build & Push with glibc Latest
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: ./Dockerfile
-          target: glibc
-          labels: ${{ env.LABELS }}
-          build-args: |
-            ALPINE_VERSION=${{ env.ALPINE_VERSION }}
-            GLIBC_VERSION=2.33-r0
-          platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
-          pull: true
-          push: true
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:latest-glibc
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ steps.semver.outputs.non-prefixed }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ steps.semver.outputs.non-prefixed }}-glibc
-
-      
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}:${{ steps.semver.outputs.non-prefixed }}      
