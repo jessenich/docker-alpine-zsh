@@ -4,9 +4,9 @@
 name: "Publish Docker Image"
 
 on:
-  workflow_dispatch:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
 
 env:
   LABELS: |
