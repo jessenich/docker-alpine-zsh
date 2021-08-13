@@ -1,0 +1,16 @@
+# Set default shell environment to bash when no shebang is found.
+shell=bash
+
+# Look for 'source'd files relative to the checked script
+source-path=SCRIPTDIR
+
+# Turn on warnings for unquoted variables with safe values
+enable=quote-safe-variables
+
+# Turn on warnings for unassigned uppercase variables
+enable=check-unassigned-uppercase
+
+# Allow "Literal carriage return. Run script through tr -d '\r'" - git will normalize endings appropriately on next commit.
+disable=SC1017
+
+disable=SC1090

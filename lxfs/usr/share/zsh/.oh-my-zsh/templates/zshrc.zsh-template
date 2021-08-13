@@ -1,0 +1,24 @@
+if [ -d "$HOME/bin" ]; then
+  export PATH=$HOME/bin:/usr/local/bin:$PATH;
+fi
+export ZSH=/usr/share/zsh/.oh-my-zsh
+export ZSH_THEME="agnoster"
+export HYPHEN_INSENSITIVE="true"
+export DISABLE_AUTO_UPDATE="true"
+export ENABLE_CORRECTION="true"
+export COMPLETION_WAITING_DOTS="true"
+export HIST_STAMPS="yyyy-mm-dd"
+# ZSH_CUSTOM=/path/to/new-custom-folder
+plugins=(
+
+)
+
+source $ZSH/oh-my-zsh.sh
+export MANPATH="/usr/local/man:$MANPATH"
+export LANG=en_US.UTF-8
+export EDITOR='nano'
+
+editzshconfig() { "$EDITOR ~/.zshrc"; }
+editohmyzsh() { "$EDITOR $ZSH/.oh-my-zsh/oh-my-zsh"; }
+srcohmyzsh() { "source /usr/share/zsh/zshrc.ohmyzsh.sh"; }
+srczshrc() { "source ~/.zshrc"; }

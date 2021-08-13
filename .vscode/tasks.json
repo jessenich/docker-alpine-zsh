@@ -1,70 +1,16 @@
 {
 	"version": "2.0.0",
 	"tasks": [
-		{
-			"type": "script",
-			"scriptType": "zsh",
-			"path": "ci/",
-			"fileName": "create-local-env.sh",
-			"scriptFile": true,
-			"script": "zsh",
-			"target": "zsh",
-			"uri": {
-				"$mid": 0,
-				"fsPath": "${workspaceFolder}/build/create-local-env.sh",
-				"path": "${workspaceFolder}/build/create-local-env.sh",
-				"scheme": "file"
-			},
-			"takesArgs": true,
-			"problemMatcher": [
-				"$msCompile"
-			],
-			"label": "zsh: create-local-env.sh"
-		},
-		{
-			"type": "script",
-			"scriptType": "zsh",
-			"path": "ci/",
-			"fileName": "docker-build.sh",
-			"scriptFile": true,
-			"script": "zsh",
-			"target": "zsh",
-			"uri": {
-				"$mid": 1,
-				"fsPath": "${workspaceFolder}/build/docker-build.sh",
-				"path": "${workspaceFolder}/build/docker-build.sh",
-				"scheme": "file"
-			},
-			"takesArgs": false,
-			"problemMatcher": [
-				"$msCompile"
-			],
-			"label": "zsh: docker-build.sh",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
-		},
-		{
-			"type": "script",
-			"scriptType": "zsh",
-			"path": "ci/",
-			"fileName": "docker-run.sh",
-			"scriptFile": true,
-			"script": "zsh",
-			"target": "zsh",
-			"uri": {
-				"$mid": 2,
-				"fsPath": "${workspaceFolder}/build/docker-run.sh",
-				"path": "${workspaceFolder}/build/docker-run.sh",
-				"scheme": "file"
-			},
-			"takesArgs": false,
-			"problemMatcher": [
-				"$msCompile"
-			],
-			"label": "zsh: docker-run.sh",
-			"dependsOn": "${defaultBuildTask}"
-		}
+        {
+            "dockerBuild": {
+                "buildArgs": {
+                    "VARIANT": "latest"
+                },
+                "context": "moby-builder",
+                "dockerfile": "./Dockerfile",
+                "pull": true,
+                "tag": ""
+            }
+        }
 	]
 }

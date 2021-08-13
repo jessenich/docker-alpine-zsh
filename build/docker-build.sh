@@ -4,12 +4,15 @@
 # This work is licensed under the terms of the MIT license. For a copy, see <https://opensource.org/licenses/MIT>.
 
 image_version= ;
-
-base_image="jessenich91/alpine";
+registry= ;
+registry_username= ;
+registry_password= ;
+registry_password_stdin= ;
+ghcr_library="jessenich";
+ghcr_repository="mssql-server";
 variant="latest";
-registry="jessenich91";
+library="jessenich91";
 repository="alpine-zsh";
-target_stage="ohmyzsh";
 
 
 show_usage() {
@@ -30,12 +33,12 @@ build() {
 
     docker buildx build \
         -f "${repository_root}/Dockerfile" \
-        -t "${registry}/${repository}:${tag1}" \
-        -t "${registry}/${repository}:${tag2}" \
-        --build-arg "BASE_IMAGE=${base_image}" \
+        -t "${library}/${repository}:${tag1}" \
+        -t "${library}/${repository}:${tag2}" \
+        -t "ghcr.io/${library}/${repository}:${tag1}" \
+        -t "ghcr.io/${library}/${repository}:${tag2}" \
         --build-arg "VARIANT=${variant}" \
         --platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
-        --target "${target_stage}" \
         --push \
         "${repository_root}"
 }
@@ -50,27 +53,57 @@ main() {
 
             -i | --image-version)
                 image_version="$2";
-                shift;
+                shift 2;
             ;;
 
             -v | --variant)
                 variant="$2";
-                shift;
+                shift 2;
             ;;
 
             -b | --base_image)
                 base_image="$2";
-                shift;
+                shift 2;
             ;;
 
-            --registry)
+            -R | --registry)
                 registry="$2";
                 shift;
             ;;
 
-            --repository)
-                repository="$2";
+            -U | --registry-username)
+                registry_username="$2";
                 shift;
+            ;;
+
+            -P | --registry-password)
+                registry_password="$2";
+                shift;
+            ;;
+
+            -S | --registry-password-stdin)
+                registry_password_stdin=true;
+                shift;
+            ;;
+
+            --ghcr-library)
+                ghcr_library="$2";
+                shift 2;
+            ;;
+
+            --ghcr-repository)
+                ghcr_repository="$2";
+                shift 2;
+            ;;
+
+            -l | --library)
+                registry="$2";
+                shift 2;
+            ;;
+
+            -r | --repository)
+                repository="$2";
+                shift 2;
             ;;
         esac
     done
