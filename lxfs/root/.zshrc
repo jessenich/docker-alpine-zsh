@@ -38,10 +38,6 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
 if [ -f "/usr/share/zsh/zsh_env.sh" ]; then
     . "/usr/share/zsh/zsh_env.sh";
 fi
@@ -50,11 +46,15 @@ if [ -f "${HOME}/.zsh_aliases" ]; then
     . "${HOME}/.zsh_aliases";
 fi
 
+if [ -f "/usr/share/zsh/zsh_env.sh" ]; then
+    . "/usr/share/zsh/zsh_env.sh";
+fi
+
 # Import oh-my-zsh
 if [ -f "/usr/share/zsh/zshrc.ohmyzsh.sh" ]; then
     . "/usr/share/zsh/zshrc.ohmyzsh.sh";
 fi
 
 if [ -f "/usr/share/zsh/zsh_aliases.sh" ]; then
-    . "/usr/share/zsh/zshrc.ohmyzsh.sh";
+    . "/usr/share/zsh/zsh_aliases.sh";
 fi
