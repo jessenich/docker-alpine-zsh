@@ -55,6 +55,3 @@ RUN chsh -s /bin/zsh root && \
         chsh -s /bin/zsh "${USERS}"; \
         cp /etc/zsh/zshrc_template "/home/${user}/.zshrc"; \
     fi
-
-COPY lxfs/home/user/zshrc /tmp/docker-build/zshrc
-COPY lxfs/home/user/zsh /tmp/docker-build/zsh
