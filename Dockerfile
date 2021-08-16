@@ -53,12 +53,13 @@ RUN USERS="$(cat /etc/passwd | grep '/bin/ash' | awk -F':' '{ print $1 }')" && \
         done \
     elif [ -n "${USERS}" ]; then \
         chsh -s /bin/zsh "${USERS}"; \
-        cp /etc/zsh/zshrc_template "/home/${user}/.zshrc"; \
+        cp /etc/zsh/zshrc_template "/home/${USERS}/.zshrc"; \
     else \
         echo "No non-root accounts found to zsh-ify."; \
     fi
 
-RUN chsh -s /bin/zsh root
+RUN chsh -s /bin/zsh root && \
+    USER="$(cat /etc/passwd | grep ':1000:1000:' | awk -F':' '{ print $1 }')";
 
-USER "${USER}"
-WORKDIR "${HOME}"
+WORKDIR "/home/${USER}"
+CMD "/bin/zsh"

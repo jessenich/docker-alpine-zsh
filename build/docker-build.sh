@@ -19,8 +19,6 @@ show_usage() {
     echo  "Usage: $0 -i [--image-version] x.x.x [FLAGS]" && \
     echo "Flags: " && \
     echo "    -i | --image-version          - Semantic version compliant string to tag built image with." && \
-    echo "    -a | --alpine-version         - Semantic version compliant string that coincides with underlying base Alpine image. See dockerhub.com/alpine for values. 'latest' is considered valid." && \
-    echo "    -b | --base-image             - Name of base image" && \
     echo "    -v | --variant                - Variant/tag of base image" && \
     echo "    [ --registry ]                - Registry which the image will be pushed upon successful build. If not using dockerhub, the full FQDN must be specified. This assumes the default docker daemon is already authenticated with the registry specified. If dockerhub is used, just the username is required. Default value: jessenich91." && \
     echo "    [ --repository ]              - Repository which the image will be pushed upon successful build. Default value: 'alpine-zsh'"
@@ -58,11 +56,6 @@ main() {
 
             -v | --variant)
                 variant="$2";
-                shift 2;
-            ;;
-
-            -b | --base_image)
-                base_image="$2";
                 shift 2;
             ;;
 
