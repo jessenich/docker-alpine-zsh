@@ -24,6 +24,9 @@ ARG VARIANT="latest"
 
 FROM jessenich91/alpine:"${VARIANT}" as deps
 
+LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
+LABEL org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh/blob/main/Dockerfile"
+
 ENV VARIANT=${VARIANT} \
     USER_LOGIN_SHELL="${USER_LOGIN_SHELL:-/bin/zsh}" \
     USER_LOGIN_SHELL_FALLBACK="${USER_LOGIN_FALLBACK_SHELL:-/bin/ash}" \
