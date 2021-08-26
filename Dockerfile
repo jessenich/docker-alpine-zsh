@@ -42,7 +42,7 @@ RUN apk update && \
         zsh-autosuggestions \
         shadow \
         rsync-zsh-completion \
-        yq-zsh-completion;
+        yq-zsh-completion >/dev/null 2>&1;
 
 RUN rm -rf /var/cache/apk/*
 RUN chmod 0640 /etc/shadow
