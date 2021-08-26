@@ -48,15 +48,10 @@ RUN rm -rf /var/cache/apk/*
 RUN chmod 0640 /etc/shadow
 
 COPY ./lxfs /
-RUN USERS="$(cat /etc/passwd | grep '/bin/ash' | awk -F':' '{ print $1 }')" && \
-    if [ "${USERS[#]}" -gt 1 ]; then \
-        for user in "${USERS[@]}"; do \
-            chsh -s /bin/zsh "${user}"; \
-            cp /etc/zsh/zshrc_template "/home/${user}/.zshrc"; \
-        done \
-    elif [ -n "${USERS}" ]; then \
-        chsh -s /bin/zsh "${USERS}"; \
-        cp /etc/zsh/zshrc_template "/home/${USERS}/.zshrc"; \
+RUN USER="$(cat /etc/passwd | grep ':1000:1000:' | awk -F':' '{ print $1 }')" && \
+    if [ -n "${USER}" ]; then \
+        chsh -s /bin/zsh "${USER}"; \
+        cp /etc/zsh/zshrc_template "/home/${USER}/.zshrc"; \
     else \
         echo "No non-root accounts found to zsh-ify."; \
     fi
