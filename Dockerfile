@@ -35,14 +35,13 @@ ENV VARIANT=${VARIANT} \
     DISTRIBUTION="$(uname -a)"
 
 USER root
-RUN apk update && \
+RUN apk update 2>/dev/null && \
     apk add \
         zsh \
         zsh-syntax-highlighting \
         zsh-autosuggestions \
-        shadow \
         rsync-zsh-completion \
-        yq-zsh-completion >/dev/null 2>&1;
+        yq-zsh-completion;
 
 RUN rm -rf /var/cache/apk/*
 RUN chmod 0640 /etc/shadow

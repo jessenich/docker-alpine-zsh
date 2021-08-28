@@ -34,5 +34,6 @@
         "sgerrand",
         "shosts",
         "zftp"
-    ]
+    ],
+    "cmake.configureOnOpen": true
 }

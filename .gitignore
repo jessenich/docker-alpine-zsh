@@ -474,3 +474,5 @@ zsdoc/data
 
 **/conf.d/authorized_keys/**
 !build/**
+
+**.secrets
