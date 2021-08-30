@@ -9,12 +9,13 @@ on:
       - "v*"
 
 env:
-  LABELS: |
-    "maintainer: Jesse N. <jesse@keplerdev.com>"
-    "com.keplerdev.maintainer: Jesse N. <jesse@keplerdev.com>"
-    "com.keplerdev.source-sha": ${{ github.sha }}
-    "com.keplerdev.repository.github.url: https://github.com/${{ github.repository }}"
-    "com.keplerdev.repository.dockerhub.url: https://dockerhub.com/${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
+  TARGET_PLATFORMS: linux/amd64,linux/arm64/v8,linux/arm/v7
+  GHCR_URL: ghcr.io
+  GHCR_LIBRARY: jessenich
+  GHCR_REPO: alpine-zsh
+  DOCKERHUB_LIBRARY: jessenich91
+  DOCKERHUB_REPO: alpine-zsh
+  LABELS: maintainer=Jesse N. <jesse@keplerdev.com>
 
 jobs:
   build-docker-image:
@@ -65,10 +66,15 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
+          labels: |
+            "${{ env.LABELS }}"
           images: |
-            "${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_REPO }}"
-            "ghcr.io/${{ github.repository }}"
-          tags: type=semver,pattern={{version}}
+            "${{ env.DOCKERHUB_LIBRARY }}/${{ env.DOCKERHUB_REPO }}"
+            "ghcr.io/${{ env.GHCR_LIBRARY }}/${{ env.GHCR_REPO }}"
+          tags: |
+            type=raw,enable=${{ contains(matrix.alpine-version, '3.14') }},priority=100,value=latest
+            type=semver,enable=${{ startsWith(github.ref, 'refs/tags/') }},pattern={{major}}.{{minor}}.{{patch}},suffix=-alpine.${{ matrix.alpine-version }}
+            type=semver,enable=${{ startsWith(github.ref, 'refs/tags/') }},pattern={{major}}.{{minor}},suffix=-alpine.${{ matrix.alpine-version }}
 
       - name: Build & Push Latest
         uses: docker/build-push-action@v2

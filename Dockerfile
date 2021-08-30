@@ -28,15 +28,11 @@ LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
 LABEL org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh/blob/main/Dockerfile"
 
 ENV VARIANT=${VARIANT} \
-    USER_LOGIN_SHELL="${USER_LOGIN_SHELL:-/bin/zsh}" \
-    USER_LOGIN_SHELL_FALLBACK="${USER_LOGIN_FALLBACK_SHELL:-/bin/ash}" \
     TZ="${TZ:-America/NewYork}" \
-    RUNNING_IN_DOCKER="true" \
-    DISTRIBUTION="$(uname -a)"
+    RUNNING_IN_DOCKER="true"
 
 USER root
-RUN apk update 2>/dev/null && \
-    apk add \
+RUN apk add \
         zsh \
         zsh-syntax-highlighting \
         zsh-autosuggestions \
