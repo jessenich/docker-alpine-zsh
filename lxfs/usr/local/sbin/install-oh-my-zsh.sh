@@ -19,7 +19,8 @@ if [ -f /root/.zshrc.pre-oh-my-zsh ]; then
     mv /root/.zshrc.pre-oh-my-zsh /root/.zshrc
 fi
 
-cp /root/.zshrc "/home/$USER/.zshrc"
+cp -f /etc/zsh/zshrc_template /root/.zshrc
+cp -f /etc/zsh/zshrc_template "/home/$USER/.zshrc"
 
 chsh -s /bin/zsh "$USER"
 chsh -s /bin/zsh root
