@@ -47,16 +47,7 @@ RUN rm -rf /var/cache/apk/*
 RUN chmod 0640 /etc/shadow
 
 COPY ./lxfs /
-RUN USER="$(cat /etc/passwd | grep ':1000:1000:' | awk -F':' '{ print $1 }')" && \
-    if [ -n "${USER}" ]; then \
-        chsh -s /bin/zsh "${USER}"; \
-        cp /etc/zsh/zshrc_template "/home/${USER}/.zshrc"; \
-    else \
-        echo "No non-root accounts found to zsh-ify."; \
-    fi
-
-RUN chsh -s /bin/zsh root && \
-    USER="$(cat /etc/passwd | grep ':1000:1000:' | awk -F':' '{ print $1 }')";
+RUN /bin/bash /usr/local/sbin/install-oh-my-zsh.sh
 
 WORKDIR "/home/${USER}"
 CMD "/bin/zsh"
