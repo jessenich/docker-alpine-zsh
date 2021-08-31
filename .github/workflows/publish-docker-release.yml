@@ -9,7 +9,7 @@ on:
       - "v*"
 
 env:
-  TARGET_PLATFORMS: linux/amd64,linux/arm64/v8,linux/arm/v7
+  TARGET_PLATFORMS: linux/amd64,linux/arm64/v8
   GHCR_URL: ghcr.io
   GHCR_LIBRARY: jessenich
   GHCR_REPO: alpine-zsh
@@ -19,7 +19,11 @@ env:
 
 jobs:
   build-docker-image:
+    name: Build Image - "${{ matrix.variant }}"
     runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        variant: [ "latest-alpine.3.13", "latest-alpine.3.14" ]
 
     permissions:
       contents: read
@@ -72,20 +76,21 @@ jobs:
             "${{ env.DOCKERHUB_LIBRARY }}/${{ env.DOCKERHUB_REPO }}"
             "ghcr.io/${{ env.GHCR_LIBRARY }}/${{ env.GHCR_REPO }}"
           tags: |
-            type=raw,enable=${{ contains(matrix.alpine-version, '3.14') }},priority=100,value=latest
             type=semver,enable=${{ startsWith(github.ref, 'refs/tags/') }},pattern={{major}}.{{minor}}.{{patch}},suffix=-alpine.${{ matrix.alpine-version }}
             type=semver,enable=${{ startsWith(github.ref, 'refs/tags/') }},pattern={{major}}.{{minor}},suffix=-alpine.${{ matrix.alpine-version }}
+          latest: auto
 
       - name: Build & Push Latest
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
-          labels: ${{ env.LABELS }}
+          labels: |
+            "${{ steps.meta.outputs.labels }}"
           build-args: |
             BASE_IMAGE=jessenich91/alpine
-            VARIANT=latest
-          platforms: linux/arm/v7,linux/arm64/v8,linux/amd64
-          pull: true
+            VARIANT="${{ matrix.variant }}"
+          platforms: ${{ env.PLATFORMS }}
+          pull: false
           push: true
           tags: "${{ steps.meta.outputs.tags }}"
