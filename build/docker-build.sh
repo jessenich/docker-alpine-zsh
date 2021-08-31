@@ -35,8 +35,10 @@ build() {
         -t "${library}/${repository}:${tag2}" \
         -t "ghcr.io/${library}/${repository}:${tag1}" \
         -t "ghcr.io/${library}/${repository}:${tag2}" \
+        --no-cache \
         --build-arg "VARIANT=${variant}" \
-        --platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
+        --platform linux/amd64 \
+        --pull \
         --push \
         "${repository_root}"
 }

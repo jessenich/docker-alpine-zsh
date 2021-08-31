@@ -28,11 +28,12 @@ LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
 LABEL org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh/blob/main/Dockerfile"
 
 ENV VARIANT=${VARIANT} \
-    TZ="${TZ:-America/NewYork}" \
+    TZ="${TZ:-America/New_York}" \
     RUNNING_IN_DOCKER="true"
 
 USER root
 RUN apk add \
+        bash \
         zsh \
         zsh-syntax-highlighting \
         zsh-autosuggestions \
@@ -43,7 +44,7 @@ RUN rm -rf /var/cache/apk/*
 RUN chmod 0640 /etc/shadow
 
 COPY ./lxfs /
-RUN /bin/bash /usr/local/sbin/install-oh-my-zsh.sh
+RUN /bin/ash /usr/local/sbin/install-oh-my-zsh.sh 1>&2
 
 WORKDIR "/home/${USER}"
 CMD "/bin/zsh"
