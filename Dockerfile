@@ -22,7 +22,7 @@
 
 ARG VARIANT="latest"
 
-FROM jessenich91/alpine:"${VARIANT}" as deps
+FROM ghcr.io/jessenich/alpine:"${VARIANT}" as base
 
 LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
 LABEL org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh/blob/main/Dockerfile"
@@ -32,19 +32,20 @@ ENV VARIANT=${VARIANT} \
     RUNNING_IN_DOCKER="true"
 
 USER root
-RUN apk add \
-        bash \
+RUN apk add --update --no-cache \
+        git \
         zsh \
         zsh-syntax-highlighting \
         zsh-autosuggestions \
         rsync-zsh-completion \
         yq-zsh-completion;
 
-RUN rm -rf /var/cache/apk/*
 RUN chmod 0640 /etc/shadow
 
 COPY ./lxfs /
-RUN /bin/ash /usr/local/sbin/install-oh-my-zsh.sh 1>&2
+
+RUN /bin/zsh /usr/local/sbin/install-oh-my-zsh.sh 2>&1 && \
+    rm -f /usr/local/sbin/install-oh-my-zsh.sh
 
 WORKDIR "/home/${USER}"
 CMD "/bin/zsh"

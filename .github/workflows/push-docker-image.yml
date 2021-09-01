@@ -15,7 +15,7 @@ env:
   GHCR_REPO: alpine-zsh
   DOCKERHUB_LIBRARY: jessenich91
   DOCKERHUB_REPO: alpine-zsh
-  LABELS: maintainer=Jesse N. <jesse@keplerdev.com>
+  LABELS: maintainer="Jesse N. <jesse@keplerdev.com>"
 
 jobs:
   build-docker-image:
@@ -23,7 +23,7 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        variant: [ "latest-alpine.3.13", "latest-alpine.3.14" ]
+        variant: [ "3.13", "3.14" ]
 
     permissions:
       contents: read
@@ -43,7 +43,10 @@ jobs:
 
       - name: Buildx Builder Create
         run: |
-          docker buildx create --platform linux/amd64,linux/arm64/v8,linux/arm/v7 --use
+          docker buildx create \
+            --platform "${{ env.TARGET_PLATFORMS }}" \
+            --name "github-runner-builder" \
+            --use
 
       - name: Cache Docker layers
         uses: actions/cache@v2
@@ -70,27 +73,23 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          labels: |
-            "${{ env.LABELS }}"
+          labels: ${{ env.LABELS }}
           images: |
             "${{ env.DOCKERHUB_LIBRARY }}/${{ env.DOCKERHUB_REPO }}"
             "ghcr.io/${{ env.GHCR_LIBRARY }}/${{ env.GHCR_REPO }}"
           tags: |
-            type=semver,enable=${{ startsWith(github.ref, 'refs/tags/') }},pattern={{major}}.{{minor}}.{{patch}},suffix=-alpine.${{ matrix.alpine-version }}
-            type=semver,enable=${{ startsWith(github.ref, 'refs/tags/') }},pattern={{major}}.{{minor}},suffix=-alpine.${{ matrix.alpine-version }}
-          latest: auto
+            type=raw,enable=${{ contains(matrix.variant, '3.14') }},priority=100,value=latest
+            type=semver,enable=${{ startsWith(github.ref, 'refs/tags/') }},pattern={{major}}.{{minor}}.{{patch}},suffix=-alpine.${{ matrix.variant }}
+          flavor: latest=false
 
       - name: Build & Push Latest
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
-          labels: |
-            "${{ steps.meta.outputs.labels }}"
-          build-args: |
-            BASE_IMAGE=jessenich91/alpine
-            VARIANT="${{ matrix.variant }}"
+          labels: ${{ env.LABELS }}
+          build-args: VARIANT=${{ matrix.variant }}
           platforms: ${{ env.PLATFORMS }}
-          pull: false
+          pull: true
           push: true
           tags: "${{ steps.meta.outputs.tags }}"

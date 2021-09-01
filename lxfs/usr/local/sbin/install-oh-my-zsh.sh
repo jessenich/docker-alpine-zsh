@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 export ZSH="/usr/local/share/zsh/oh-my-zsh";
+export USER= ;
 USER="$(cat /etc/passwd | grep ':1000:1000:' | awk -F':' '{ print $1 }')";
+
+echo "install-oh-my-zsh found user: $USER"
+
 if [ -n "${USER}" ]; then
     chsh -s /bin/zsh "${USER}";
     cp /etc/zsh/zshrc_template "/home/${USER}/.zshrc";
