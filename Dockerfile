@@ -47,5 +47,6 @@ COPY ./lxfs /
 RUN /bin/zsh /usr/local/sbin/install-oh-my-zsh.sh 2>&1 && \
     rm -f /usr/local/sbin/install-oh-my-zsh.sh
 
+USER "$USER"
 WORKDIR "/home/${USER}"
 CMD "/bin/zsh"

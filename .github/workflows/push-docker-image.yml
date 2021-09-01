@@ -79,6 +79,7 @@ jobs:
             "ghcr.io/${{ env.GHCR_LIBRARY }}/${{ env.GHCR_REPO }}"
           tags: |
             type=raw,enable=${{ contains(matrix.variant, '3.14') }},priority=100,value=latest
+            type=raw,value=latest-alpine.${{ matrix.variant }}
             type=semver,enable=${{ startsWith(github.ref, 'refs/tags/') }},pattern={{major}}.{{minor}}.{{patch}},suffix=-alpine.${{ matrix.variant }}
           flavor: latest=false
 
@@ -88,7 +89,7 @@ jobs:
           context: .
           file: ./Dockerfile
           labels: ${{ env.LABELS }}
-          build-args: VARIANT=${{ matrix.variant }}
+          build-args: VARIANT=latest-alpine.${{ matrix.variant }}
           platforms: ${{ env.PLATFORMS }}
           pull: true
           push: true
