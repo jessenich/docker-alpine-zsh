@@ -15,7 +15,7 @@ env:
   GHCR_REPO: alpine-zsh
   DOCKERHUB_LIBRARY: jessenich91
   DOCKERHUB_REPO: alpine-zsh
-  LABELS: maintainer="Jesse N. <jesse@keplerdev.com>"
+  LABELS: maintainer=Jesse N. <jesse@keplerdev.com>
 
 jobs:
   build-docker-image:
@@ -88,8 +88,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          labels: ${{ env.LABELS }}
-          build-args: VARIANT=latest-alpine.${{ matrix.variant }}
+          labels: "${{ env.LABELS }}"
+          build-args: "VARIANT=latest-alpine.${{ matrix.variant }}"
           platforms: ${{ env.PLATFORMS }}
           pull: true
           push: true
