@@ -89,7 +89,7 @@ jobs:
           context: .
           file: ./Dockerfile
           labels: "${{ env.LABELS }}"
-          build-args: "VARIANT=latest-alpine.${{ matrix.variant }}"
+          build-args: VARIANT=latest-alpine."${{ matrix.variant }}"
           platforms: ${{ env.PLATFORMS }}
           pull: true
           push: true

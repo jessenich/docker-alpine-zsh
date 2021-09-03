@@ -21,8 +21,7 @@
 ## SOFTWARE.
 
 ARG VARIANT="latest"
-
-FROM ghcr.io/jessenich/alpine:"${VARIANT}" as base
+FROM ghcr.io/jessenich/alpine:"${VARIANT}"
 
 LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
 LABEL org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh/blob/main/Dockerfile"
