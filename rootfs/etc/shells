@@ -1,5 +1,4 @@
 # valid login shells
 /bin/zsh
-/bin/bash
 /bin/ash
 /bin/sh

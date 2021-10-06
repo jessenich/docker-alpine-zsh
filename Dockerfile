@@ -41,7 +41,7 @@ RUN apk add --update --no-cache \
 
 RUN chmod 0640 /etc/shadow
 
-COPY ./lxfs /
+COPY ./rootfs /
 
 RUN /bin/zsh /usr/local/sbin/install-oh-my-zsh.sh 2>&1 && \
     rm -f /usr/local/sbin/install-oh-my-zsh.sh

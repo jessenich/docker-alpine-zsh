@@ -1,4 +1,10 @@
-# Set up the prompt
+#!/usrbin/env zsh
+
+# Copyright (c) 2021 Jesse N. <jesse@keplerdev.com>
+# This work is licensed under the terms of the MIT license. For a copy, see <https://opensource.org/licenses/MIT>.
+
+#shellcheck shell=bash
+
 
 # shellcheck shell=bash
 # shellcheck source-path=SCRIPTDIR
@@ -37,24 +43,19 @@ zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-
-if [ -f "/usr/share/zsh/zsh_env.sh" ]; then
-    . "/usr/share/zsh/zsh_env.sh";
+if [ -f "/home/.common/zsh/zsh_env.zsh" ]; then
+    source "/home/.common/zsh/zsh_env.zsh";
 fi
 
-if [ -f "${HOME}/.zsh_aliases" ]; then
-    . "${HOME}/.zsh_aliases";
+if [ -f "/home/.common/zsh/zsh_aliases.zsh" ]; then
+    source "/home/.common/zsh/zsh_aliases.zsh";
 fi
 
-if [ -f "/usr/share/zsh/zsh_env.sh" ]; then
-    . "/usr/share/zsh/zsh_env.sh";
+if [ -f "$ZSH/oh-my-zsh.sh" ]; then
+    source "$ZSH/oh-my-zsh.sh";
 fi
 
-# Import oh-my-zsh
-if [ -f "/usr/share/zsh/zshrc.ohmyzsh.sh" ]; then
-    . "/usr/share/zsh/zshrc.ohmyzsh.sh";
-fi
-
-if [ -f "/usr/share/zsh/zsh_aliases.sh" ]; then
-    . "/usr/share/zsh/zsh_aliases.sh";
-fi
+edit-zshconfig() { "$EDITOR ~/.zshrc"; }
+edit-ohmyzsh() { "$EDITOR $ZSH/.oh-my-zsh/oh-my-zsh"; }
+src-ohmyzsh() { "source /home/.common/zsh/zshrc.ohmyzsh.sh"; }
+src-zshrc() { "source ~/.zshrc"; }
