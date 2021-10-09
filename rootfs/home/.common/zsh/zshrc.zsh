@@ -43,12 +43,13 @@ zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-if [ -f "/home/.common/zsh/zsh_env.zsh" ]; then
-    source "/home/.common/zsh/zsh_env.zsh";
+
+if [ -f "/home/.common/zsh/zshenv.zsh" ]; then
+    source "/home/.common/zsh/zshenv.zsh";
 fi
 
-if [ -f "/home/.common/zsh/zsh_aliases.zsh" ]; then
-    source "/home/.common/zsh/zsh_aliases.zsh";
+if [ -f "/home/.common/zsh/zshaliases.zsh" ]; then
+    source "/home/.common/zsh/zshaliases.zsh";
 fi
 
 if [ -f "$ZSH/oh-my-zsh.sh" ]; then
