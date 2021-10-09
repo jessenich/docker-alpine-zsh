@@ -7,9 +7,9 @@ USER="$(cat /etc/passwd | grep ':1000:1000:' | awk -F':' '{ print $1 }')";
 export REPO="jessenich/ohmyzsh";
 export BRANCH="jesse/main";
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --skip-chsh --keep-zshrc
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/jessenich/ohmyzsh/jesse/main/tools/install.sh)" "" --unattended --skip-chsh --keep-zshrc
 
-# DOuble check it didnt drop it in roots homeholder
+# Double check it didnt drop it in roots homeholder
 if [ -d /root/.oh-my-zsh ]; then mv /root/.oh-my-zsh "$(dirname "$ZSH")"; fi
 if [ -f /root/.zshrc.pre-oh-my-zsh ]; then rm -f /root/.zshrc.pre-oh-my-zsh; fi
 if [ -f /root/.zshrc ]; then rm -f /root/.zshrc; fi

@@ -475,4 +475,7 @@ zsdoc/data
 **/conf.d/authorized_keys/**
 !build/**
 
-**.secrets
+**.secret**
+**.log
+**.DS_Store
+.DS_Store

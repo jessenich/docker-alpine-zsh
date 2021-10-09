@@ -31,13 +31,7 @@ ENV VARIANT=${VARIANT} \
     RUNNING_IN_DOCKER="true"
 
 USER root
-RUN apk add --update --no-cache \
-        git \
-        zsh \
-        zsh-syntax-highlighting \
-        zsh-autosuggestions \
-        rsync-zsh-completion \
-        yq-zsh-completion;
+RUN apk add --update --no-cache zsh;
 
 RUN chmod 0640 /etc/shadow
 
