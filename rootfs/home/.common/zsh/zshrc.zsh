@@ -1,10 +1,5 @@
-#!/usrbin/env zsh
-
 # Copyright (c) 2021 Jesse N. <jesse@keplerdev.com>
 # This work is licensed under the terms of the MIT license. For a copy, see <https://opensource.org/licenses/MIT>.
-
-#shellcheck shell=bash
-
 
 # shellcheck shell=bash
 # shellcheck source-path=SCRIPTDIR
@@ -14,14 +9,12 @@
 
 autoload -Uz promptinit
 promptinit
-prompt adam1
-
 setopt histignorealldups sharehistory
 bindkey -e
 
 export HISTSIZE=100000
 export SAVEHIST=1000000
-export HISTFILE="${HOME}/.zsh_history"
+export HISTFILE="$HOME/.zsh_history"
 
 autoload -Uz compinit
 compinit
@@ -44,19 +37,21 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
-if [ -f "/home/.common/zsh/zshenv.zsh" ]; then
-    source "/home/.common/zsh/zshenv.zsh";
+export COMMON="/home/.common";
+
+if [ -f "$COMMON/zsh/zshenv.zsh" ]; then
+    source "$COMMON/zsh/zshenv.zsh";
 fi
 
-if [ -f "/home/.common/zsh/zshaliases.zsh" ]; then
-    source "/home/.common/zsh/zshaliases.zsh";
+if [ -f "$COMMON/zsh/zshaliases.zsh" ]; then
+    source "$COMMON/zsh/zshaliases.zsh";
 fi
 
 if [ -f "$ZSH/oh-my-zsh.sh" ]; then
     source "$ZSH/oh-my-zsh.sh";
 fi
 
-edit-zshconfig() { "$EDITOR ~/.zshrc"; }
-edit-ohmyzsh() { "$EDITOR $ZSH/.oh-my-zsh/oh-my-zsh"; }
-src-ohmyzsh() { "source /home/.common/zsh/zshrc.ohmyzsh.sh"; }
-src-zshrc() { "source ~/.zshrc"; }
+alias edit-zshconfig="$EDITOR ~/.zshrc";
+alias edit-ohmyzsh="$EDITOR $ZSH/oh-my-zsh";
+alias src-ohmyzsh="source $COMMON/zsh/zshrc.ohmyzsh.zsh";
+alias src-zshrc="source $HOME/.zshrc";
