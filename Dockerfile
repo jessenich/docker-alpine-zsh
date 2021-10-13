@@ -21,31 +21,35 @@
 ## SOFTWARE.
 
 ARG VARIANT="latest"
-FROM ghcr.io/jessenich/alpine:"${VARIANT}"
+FROM ghcr.io/jessenich/alpine:"$VARIANT" as base
 
 LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
 LABEL org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh/blob/main/Dockerfile"
 
-ENV VARIANT=${VARIANT} \
+ENV VARIANT=$VARIANT \
     TZ="${TZ:-America/New_York}" \
     RUNNING_IN_DOCKER="true"
+    
+COPY ./rootfs /
 
 USER root
 RUN apk add --update --no-cache \
-        git \
         zsh \
         zsh-syntax-highlighting \
         zsh-autosuggestions \
         rsync-zsh-completion \
-        yq-zsh-completion;
+        yq-zsh-completion && \
+        chmod 0640 /etc/shadow;
+        
+FROM base as download
 
-RUN chmod 0640 /etc/shadow
+RUN apk add --update --no-cache git && \
+    /bin/zsh /usr/local/sbin/install-oh-my-zsh.zsh 2>&1;
+    
+FROM base as final
 
-COPY ./rootfs /
-
-RUN /bin/zsh /usr/local/sbin/install-oh-my-zsh.sh 2>&1 && \
-    rm -f /usr/local/sbin/install-oh-my-zsh.sh
+COPY --from=download /home/.common/zsh/oh-my-zsh /home/.common/zsh/oh-my-zsh
 
 USER "$USER"
-WORKDIR "/home/${USER}"
+WORKDIR "/home/$USER"
 CMD "/bin/zsh"
