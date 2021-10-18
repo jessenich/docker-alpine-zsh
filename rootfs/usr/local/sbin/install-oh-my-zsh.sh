@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 
 export ZSH="/home/.common/zsh/oh-my-zsh";
-export USER= ;
 USER="$(cat /etc/passwd | grep ':1000:1000:' | awk -F':' '{ print $1 }')";
+export USER;
 
-export REPO="jessenich/ohmyzsh";
-export BRANCH="jesse/main";
-
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --skip-chsh --keep-zshrc
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 # DOuble check it didnt drop it in roots homeholder
 if [ -d /root/.oh-my-zsh ]; then mv /root/.oh-my-zsh "$(dirname "$ZSH")"; fi

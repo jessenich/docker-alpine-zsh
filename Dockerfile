@@ -29,7 +29,7 @@ LABEL org.opencontainers.image.source="https://github.com/jessenich/docker-alpin
 ENV VARIANT=$VARIANT \
     TZ="${TZ:-America/New_York}" \
     RUNNING_IN_DOCKER="true"
-    
+
 COPY ./rootfs /
 
 USER root
@@ -40,12 +40,12 @@ RUN apk add --update --no-cache \
         rsync-zsh-completion \
         yq-zsh-completion && \
         chmod 0640 /etc/shadow;
-        
+
 FROM base as download
 
 RUN apk add --update --no-cache git && \
-    /bin/zsh /usr/local/sbin/install-oh-my-zsh.zsh 2>&1;
-    
+    /bin/zsh /usr/local/sbin/install-oh-my-zsh.zsh;
+
 FROM base as final
 
 COPY --from=download /home/.common/zsh/oh-my-zsh /home/.common/zsh/oh-my-zsh
