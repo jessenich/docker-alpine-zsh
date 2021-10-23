@@ -33,12 +33,7 @@ ENV VARIANT=$VARIANT \
 COPY ./rootfs /
 
 USER root
-RUN apk add --update --no-cache \
-        zsh \
-        zsh-syntax-highlighting \
-        zsh-autosuggestions \
-        rsync-zsh-completion \
-        yq-zsh-completion && \
+RUN apk add --update --no-cache bash zsh && \
         chmod 0640 /etc/shadow;
 
 FROM base as download
@@ -48,7 +43,9 @@ RUN apk add --update --no-cache git && \
 
 FROM base as final
 
-COPY --from=download /home/.common/zsh/oh-my-zsh /home/.common/zsh/oh-my-zsh
+COPY --from=download \
+    /home/.common/zsh/oh-my-zsh \
+    /home/.common/zsh/oh-my-zsh
 
 USER "$USER"
 WORKDIR "/home/$USER"
