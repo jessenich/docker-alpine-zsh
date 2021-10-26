@@ -1,0 +1,117 @@
+# A primer on a few git attributes
+# whitespace=space-before-tab = do not allow spaces followed by tabs
+# whitespace=tab-in-indent    = do not allow indentation by tabs
+# whitespace=trailing-space   = do not allow trailing spaces
+
+# Force all line endings to be \n
+* text=auto
+* whitespace=space-before-tab,tab-in-indent,trailing-space,tab
+
+# Whitespace (exclusions)
+.gitmodules       -whitespace
+
+*.bash            text  whitespace  eol=lf
+*.cs              text  whitespace  diff=csharp  eol=lf
+*.csx             text  whitespace  diff=csharp  eol=lf
+*.dockerignore    text  whitespace  eol=lf
+*.js              text
+*.json            text
+*.mk              text  whitespace  eol=lf
+*.sh              text  whitespace  eol=lf
+*.sql             text
+*.svg             text  whitespace  diff=html
+*.ts              text
+*.tsx             text
+*.xml             text
+*Dockerfile*      text  whitespace  eol=lf
+Makefile*         text  whitespace  eol=lf
+
+# Documentation
+*.ipynb           text
+*.markdown        text
+*.md              text
+*.mdwn            text
+*.mdown           text
+*.mkd             text
+*.mkdn            text
+*.mdtxt           text
+*.mdtext          text
+*.txt             text
+AUTHORS           text
+CHANGELOG         text
+CHANGES           text
+CONTRIBUTING      text
+COPYING           text
+copyright         text
+*COPYRIGHT*       text
+INSTALL           text
+license           text
+LICENSE           text
+NEWS              text
+readme            text
+*README*          text
+TODO              text
+
+# Configs
+*.cnf             text
+*.conf            text
+*.config          text
+.editorconfig     text
+.env              text
+.gitattributes    text
+.gitconfig        text
+.htaccess         text
+*.lock            text -diff
+package-lock.json text -diff
+*.toml            text
+*.yaml            text
+*.yml             text
+browserslist      text
+Makefile          text
+makefile          text
+
+############################################################
+# git can corrupt binary files if they're not set to binary.
+############################################################
+
+# Apple office documents are actually folders, so treat them as binary.
+*.numbers         binary
+*.pages           binary
+*.keynote         binary
+
+# Image files
+*.png             binary
+*.jpg             binary
+*.jpeg            binary  diff=exif
+*.gif             binary
+*.webp            binary
+*.ico             binary
+
+# Movie and audio files
+*.mov           binary
+*.mp4           binary
+*.mp3           binary
+*.flv           binary
+*.ogg           binary
+
+# Compression formats
+*.gz            binary
+*.bz2           binary
+*.7z            binary
+*.zip           binary
+
+# Web fonts
+*.ttf           binary
+*.eot           binary
+*.woff          binary
+*.otf           binary
+
+# Other
+*.fla           binary
+*.swf           binary
+*.pdf           binary
+
+# Ignore when exporting
+.gitattributes  export-ignore
+.gitignore      export-ignore
+.gitmodules     export-ignore
