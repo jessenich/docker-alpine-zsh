@@ -33,8 +33,9 @@ ENV VARIANT=$VARIANT \
 COPY ./rootfs /
 
 USER root
-RUN apk add --update --no-cache bash zsh && \
-        chmod 0640 /etc/shadow;
+RUN apk add --update --no-cache bash
+RUN /bin/bash apk add --update --no-cache zsh
+RUN chmod 0640 /etc/shadow;
 
 FROM base as download
 
