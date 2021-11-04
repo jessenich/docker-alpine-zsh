@@ -23,10 +23,14 @@
 ARG VARIANT="latest"
 FROM ghcr.io/jessenich/alpine:"$VARIANT" as base
 
-LABEL maintainer="Jesse N. <jesse@keplerdev.com>"
-LABEL org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh/blob/main/Dockerfile"
+LABEL maintainer="Jesse N. <jesse@keplerdev.com>" \
+      org.opencontainers.image.url="https://github.com/jessenich/docker-alpine-zsh" \
+      org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh" \
+      org.opencontainers.image.authors="Jesse N. <jesse@keplerdev.com>" \
+      org.opencontainers.image.vendor="Kepler Development"
 
 ENV VARIANT=$VARIANT \
+    LANG=C.UTF-8 \
     TZ="${TZ:-America/New_York}" \
     RUNNING_IN_DOCKER="true"
 
@@ -34,20 +38,32 @@ COPY ./rootfs /
 
 USER root
 RUN apk add --update --no-cache bash
-RUN /bin/bash apk add --update --no-cache zsh
-RUN chmod 0640 /etc/shadow;
+SHELL [ "/bin/bash", "-c" ]
+RUN apk add --update --no-cache zsh
+SHELL [ "/usr/bin/zsh", "-c" ]
 
 FROM base as download
+ARG OMZ_VERSION=master
+ENV OMZ_BRANCH=${OMZ_VERSION} \
+    ZSH_DOTFILES="/home/$USER/.zsh"
 
-RUN apk add --update --no-cache git && \
-    /bin/zsh /usr/local/sbin/install-oh-my-zsh.zsh;
+RUN apk add --update --no-cache git;
+
+RUN BRANCH=$OMZ_BRANCH && \
+    ZSH="$ZSH_DOTFILES/ohmyzsh" && \
+    mkdir -p "$ZSH" && \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/jessenich/ohmyzsh/${OMZ_VERSION}/tools/quick-install.sh)" \
+        --branch "jesse/main" \
+        --zsh "$HOME/.zsh" \
+        --no-banner
+
+RUN cd "$ZSH" || exit 1 && \
+    git remote add upstream https://github.com/robbyrussell/oh-my-zsh.git
 
 FROM base as final
 
-COPY --from=download \
-    /home/.common/zsh/oh-my-zsh \
-    /home/.common/zsh/oh-my-zsh
+
 
 USER "$USER"
 WORKDIR "/home/$USER"
-CMD "/bin/zsh"
+CMD [ "exec", "/usr/bin/zsh", "-l" ]
