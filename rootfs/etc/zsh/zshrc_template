@@ -1,4 +1,0 @@
-# Import common rc
-if [ -f "/home/.common/zsh/zshrc.zsh" ]; then
-    source "/home/.common/zsh/zshrc.zsh";
-fi

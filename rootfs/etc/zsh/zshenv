@@ -7,7 +7,7 @@ export FUNCTIONS_CORE_TOOLS_TELEMETRY_OPTOUT=1
 export RUNNING_IN_DOCKER="true"
 
 # Oh my zsh
-export ZSH="/usr/share/zsh/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 export ZSH_THEME="agnoster"
 export HYPHEN_INSENSITIVE="true"
 export DISABLE_AUTO_UPDATE="true"

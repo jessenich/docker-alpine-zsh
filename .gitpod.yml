@@ -3,6 +3,43 @@ image: gitpod/workspace-full
 vscode:
   extensions:
     - ms-azuretools.vscode-docker
+    - redhat.vscode-yaml
+    - pkief.material-icon-theme
+    - ms-azuretools.vscode-docker
+    - evgeniypeshkov.syntax-highlighter
+    - jeff-hykin.better-dockerfile-syntax
+    - EditorConfig.EditorConfig
+    - eamodio.gitlens
+    - mikestead.dotenv
+    - christian-kohler.path-intellisense
+    - ipedrazas.kubernetes-snippets
+    - christian-kohler.npm-intellisense
+    - exiasr.hadolint
+    - mhutchie.git-graph
+    - codezombiech.gitignore
+    - ziyasal.vscode-open-in-github
+    - donjayamanne.githistory
+    - quentinguidee.gitignore-ultimate
+    - GitHub.github-vscode-theme
+    - GitHub.vscode-pull-request-github
+    - akosyakov.gitpod-monitor
+    - vscode.github
+    - vscode.github-authentication
+    - cschleiden.vscode-github-actions
+    - bierner.markdown-preview-github-styles
+    - vscode.github-browser
+
+    # Formatters
+    - esbenp.prettier-vscode
+
+    # Cosmetics
+    - PKief.material-icon-theme
+    
+gitConfig:
+  auto.crlf: "true"
+
+
+
 
 github:
   prebuilds:

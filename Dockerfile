@@ -1,6 +1,6 @@
 ## MIT License
 ##
-## Copyright (c) 2021 Jesse N. <jesse@keplerdev.com>
+## Copyright (c) 2022 Jesse N. <jesse@keplerdev.com>
 ##
 ## Permission is hereby granted, free of charge, to any person obtaining a copy
 ## of this software and associated documentation files (the "Software"), to deal
@@ -21,13 +21,34 @@
 ## SOFTWARE.
 
 ARG VARIANT="latest"
+ARG DEFAULT_OMZ_THEME="agnoster"
 FROM ghcr.io/jessenich/alpine:"$VARIANT" as base
 
-LABEL maintainer="Jesse N. <jesse@keplerdev.com>" \
+LABEL maintainer="jessenich <https://github.com/jessenich>" \
+      license="https://github.com/jessenich/docker-alpine-zsh/blob/main/LICENSE" \
       org.opencontainers.image.url="https://github.com/jessenich/docker-alpine-zsh" \
-      org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh" \
-      org.opencontainers.image.authors="Jesse N. <jesse@keplerdev.com>" \
-      org.opencontainers.image.vendor="Kepler Development"
+      org.opencontainers.image.source="https://github.com/jessenich/docker-alpine-zsh/blob/main/Dockerfile" \
+      org.opencontainers.image.authors="jessenich <https://github.com/jessenich>" \
+      org.opencontainers.image.description="Minimal Alpine based image containing just ZSH and Oh-My-ZSH!"
+
+ARG OMZ_VERSION="jesse/main"
+ARG OMZ_SOURCE="https://raw.githubusercontent.com/jessenich/ohmyzsh/${OMZ_VERSION}/tools/quick-install.sh"
+ARG ZSH_DOTFILES="/home/$USER/.zsh"
+ARG ZSH="$ZSH_DOTFILES/ohmyzsh"
+
+RUN apk add --update --no-cache \
+        bash \
+        curl \
+        git
+
+RUN  && \
+    mkdir -p "$ZSH" && \
+    curl -fsSL $OMZ_SOURCE -- | bash \
+        --branch "$$OMZ_VERSION" \
+        --zsh "$ZSH_DOTFILES" \
+        --no-banner
+
+FROM base as final
 
 ENV VARIANT=$VARIANT \
     LANG=C.UTF-8 \
@@ -35,34 +56,11 @@ ENV VARIANT=$VARIANT \
     RUNNING_IN_DOCKER="true"
 
 COPY ./rootfs /
+COPY
 
 USER root
-RUN apk add --update --no-cache bash
-SHELL [ "/bin/bash", "-c" ]
 RUN apk add --update --no-cache zsh
-SHELL [ "/usr/bin/zsh", "-c" ]
-
-FROM base as download
-ARG OMZ_VERSION=master
-ENV OMZ_BRANCH=${OMZ_VERSION} \
-    ZSH_DOTFILES="/home/$USER/.zsh"
-
-RUN apk add --update --no-cache git;
-
-RUN BRANCH=$OMZ_BRANCH && \
-    ZSH="$ZSH_DOTFILES/ohmyzsh" && \
-    mkdir -p "$ZSH" && \
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/jessenich/ohmyzsh/${OMZ_VERSION}/tools/quick-install.sh)" \
-        --branch "jesse/main" \
-        --zsh "$HOME/.zsh" \
-        --no-banner
-
-RUN cd "$ZSH" || exit 1 && \
-    git remote add upstream https://github.com/robbyrussell/oh-my-zsh.git
-
-FROM base as final
-
-
+SHELL [ "/usr/bin/zsh" ]
 
 USER "$USER"
 WORKDIR "/home/$USER"

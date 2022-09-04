@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Jesse N. <jesse@keplerdev.com>
+# Copyright (c) 2021 - 2022 Jesse N. <jesse@keplerdev.com>
 # This work is licensed under the terms of the MIT license. For a copy, see <https://opensource.org/licenses/MIT>.
 
 # shellcheck shell=bash
@@ -9,7 +9,7 @@
 
 autoload -Uz promptinit
 promptinit
-setopt histignorealldups sharehistory
+setopt histignorealldups sharehistory 
 bindkey -e
 
 export HISTSIZE=100000

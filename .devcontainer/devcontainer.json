@@ -6,7 +6,7 @@
 	"runArgs": ["--init"],
 	"mounts": [ "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind" ],
 	"overrideCommand": false,
-	
+
 	// Use this environment variable if you need to bind mount your local source code into a new container.
 	"remoteEnv": {
 		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}"
@@ -17,22 +17,25 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
+        // Cosmetics
+        "pkief.material-icon-theme",
+
 		"ms-azuretools.vscode-docker",
 		"formulahendry.docker-explorer",
-		
+
 		// Includes:
 		// shell-format, bash IDE, PowerShell, shellman, Bash Debug, Shebang Snippets, Shellcheck
 		"lizebang.bash-extension-pack",
-		
+
 		"ms-kubernetes-tools.vscode-aks-tools",
 		"tetradresearch.vscode-h2o",
 		"shakram02.bash-beautify",
 		"deepinthought.vscode-shell-snippets",
 		"evgeniypeshkov.syntax-highlighter",
 		"bmalehorn.shell-syntax",
-
+        "jeff-hykin.better-dockerfile-syntax",
 	],
-	
+
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 
