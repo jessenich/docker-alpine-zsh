@@ -19,7 +19,7 @@ env:
   DOCKERHUB_LIBRARY: jessenich91
   DOCKERHUB_REPO: alpine-zsh
   LABELS: |
-    maintainer=Jesse N. <jesse@keplerdev.com>
+    maintainer=Jesse N. <jessenich@live.com>
     org.opencontainers.image.source=https://github.com/jessenich/docker-alpine-zsh
 
 jobs:
