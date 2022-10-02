@@ -56,7 +56,6 @@ ENV VARIANT=$VARIANT \
     RUNNING_IN_DOCKER="true"
 
 COPY ./rootfs /
-COPY
 
 USER root
 RUN apk add --update --no-cache zsh

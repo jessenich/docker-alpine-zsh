@@ -7,6 +7,9 @@ on:
   push:
     tags:
       - "v*"
+  # Run build once a week on Sunday to keep images up to date
+  schedule:
+    - cron: '0 0 0 0 0'
 
 env:
   TARGET_PLATFORMS: linux/amd64,linux/arm64/v8,linux/arm/v7
@@ -25,7 +28,15 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        variant: [ "3.13", "3.14" ]
+        alpine-version:
+          - version: '3.13'
+            latest: false
+          - version: '3.14'
+            latest: false
+          - version: '3.15'
+            latest: false
+          - version: '3.16'
+            latest: true
         user-mode: [ "root", "sudo" ]
 
     permissions:
@@ -75,11 +86,12 @@ jobs:
             ${{ env.DOCKERHUB_LIBRARY }}/${{ env.DOCKERHUB_REPO }}
             ghcr.io/${{ env.GHCR_LIBRARY }}/${{ env.GHCR_REPO }}
           tags: |
-            type=raw,enable=${{ matrix.user-mode == 'root' && matrix.variant == '3.14' && !contains(github.ref, '-rc') && !contains(github.ref, '-alpha') && !contains(github.ref, '-beta') && !contains(github.ref, '-preview') && !contains(github.ref, '-prerelease') }},priority=500,value=latest
-            type=raw,enable=${{ matrix.variant == '3.14' }},priority=400,value=${{ matrix.user-mode }}
-            type=raw,enable=true,priority=300,value=${{ matrix.user-mode }}-v${{ matrix.variant }}
-            type=semver,enable=${{ matrix.user-mode == 'root' && startsWith(github.ref, 'refs/tags/') }},priority=200,pattern={{major}}.{{minor}}.{{patch}},suffix=-${{ matrix.variant }}
-            type=semver,enable=${{ startsWith(github.ref, 'refs/tags/') }},priority=100,pattern={{major}}.{{minor}}.{{patch}},suffix=-${{ matrix.user-mode}}.${{ matrix.variant }}
+            type=raw,enable=${{ env.latest }},priority=100,value=latest
+            type=raw,enable=${{ env.latest }},priority=100,value=${{ env.target }}
+            type=raw,enable=true,priority=200,value=${{ env.target }}.${{ env.version }}
+            type=semver,enable=${{ env.target == 'root' }},priority=300,pattern={{major}}.{{minor}}.{{patch}},suffix=-${{ env.version }}
+            type=semver,enable=${{ env.target == 'root' }},priority=400,pattern={{major}}.{{minor}}.{{patch}},suffix=-root.${{ env.version }}
+            type=semver,enable=${{ env.target == 'sudo' }},priority=300,pattern={{major}}.{{minor}}.{{patch}},suffix=-sudo.${{ env.version }}
           flavor: latest=false
 
       - name: Build & Push Latest
