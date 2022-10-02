@@ -105,16 +105,18 @@ process {
         }
     }
 
-    docker buildx build `
-        -f "$($Script:RepositoryRoot)/Dockerfile" `
-        -t "$($Registry)/$($Repository):$($Script:Tag1)" `
-        -t "$($Registry)/$($Repository):$($Script:Tag2)" `
-        --build-arg "ALPINE_VERSION=$AlpineVersion" `
-        --build-arg "NO_DOCS=$NO_DOCS" `
-        --platform linux/arm/v7, linux/arm64/v8, linux/amd64 `
-        --target $targetStage `
-        --push `
-        $Script:RepositoryRoot
+    "docker buildx build
+        -f $($Script:RepositoryRoot)/Dockerfile
+        -t $($Registry)/$($Repository):$($Script:Tag1)
+        -t $($Registry)/$($Repository):$($Script:Tag2)
+        --build-arg `"ALPINE_VERSION=$AlpineVersion`"
+        --build-arg `"NO_DOCS=$NO_DOCS`"
+        --platform linux/arm/v7,linux/arm64/v8,linux/amd64
+        --target $targetStage
+        --push
+        $($Script:RepositoryRoot)" | `
+            Out-String | `
+            Invoke-Expression
 }
 
 end {
