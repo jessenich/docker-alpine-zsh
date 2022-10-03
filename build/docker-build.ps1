@@ -105,7 +105,7 @@ process {
         }
     }
 
-    "docker buildx build
+    "/bin/bash -c docker buildx build
         -f $($Script:RepositoryRoot)/Dockerfile
         -t $($Registry)/$($Repository):$($Script:Tag1)
         -t $($Registry)/$($Repository):$($Script:Tag2)

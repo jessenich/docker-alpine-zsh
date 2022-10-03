@@ -4,19 +4,12 @@
 # This work is licensed under the terms of the MIT license. For a copy, see <https://opensource.org/licenses/MIT>.
 
 image_version= ;
-registry= ;
-registry_username= ;
-registry_password= ;
-registry_password_stdin= ;
-ghcr_library="jessenich";
-ghcr_repository="alpine-zsh";
 variant="latest";
 library="jessenich91";
 repository="alpine-zsh";
 
-
 show_usage() {
-    echo  "Usage: $0 -i [--image-version] x.x.x [FLAGS]" && \
+    echo "Usage: $0 -i [--image-version] x.x.x [FLAGS]" && \
     echo "Flags: " && \
     echo "    -i | --image-version          - Semantic version compliant string to tag built image with." && \
     echo "    -v | --variant                - Variant/tag of base image" && \
@@ -58,41 +51,6 @@ main() {
 
             -v | --variant)
                 variant="$2";
-                shift 2;
-            ;;
-
-            -R | --registry)
-                registry="$2";
-                shift;
-            ;;
-
-            -U | --registry-username)
-                registry_username="$2";
-                shift;
-            ;;
-
-            -P | --registry-password)
-                registry_password="$2";
-                shift;
-            ;;
-
-            -S | --registry-password-stdin)
-                registry_password_stdin=true;
-                shift;
-            ;;
-
-            --ghcr-library)
-                ghcr_library="$2";
-                shift 2;
-            ;;
-
-            --ghcr-repository)
-                ghcr_repository="$2";
-                shift 2;
-            ;;
-
-            -l | --library)
-                registry="$2";
                 shift 2;
             ;;
 

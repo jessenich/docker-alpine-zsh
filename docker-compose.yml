@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  alpine-zsh:
+    image: jessenich91/alpine-zsh:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: final
